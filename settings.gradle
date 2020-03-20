@@ -1,0 +1,2 @@
+rootProject.name='PostCRUD'
+include ':app'

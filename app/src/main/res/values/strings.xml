@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">CardPostPart2</string>
+    <string name="count">0</string>
+    <string name="countComment">478</string>
+    <string name="countReply">100</string>
+    <string name="geoCoordinatesGM">geo:%s</string>
+    <string name="geoAddressGM">geo:?q=%s</string>
+    <string name="ads">Реклама</string>
+    <string name="request_permission_true">Разрешение получено</string>
+    <string name="request_permission_false">Разрешение не получено</string>
+    <string name="request_internet_false">Данные с сети не получены</string>
+</resources>
