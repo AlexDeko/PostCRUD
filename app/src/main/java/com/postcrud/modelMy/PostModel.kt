@@ -1,4 +1,4 @@
-package com.postcrud.model
+package com.postcrud.modelMy
 
 import com.google.gson.annotations.SerializedName
 import com.postcrud.data.Like
