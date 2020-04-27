@@ -37,6 +37,8 @@ class App : Application() {
 
 val networkModule = module {
     single {
+
+
         OkHttpClient.Builder()
             .followSslRedirects(true)
             .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))

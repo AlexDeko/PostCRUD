@@ -14,9 +14,7 @@
         android:roundIcon="@drawable/ic_question_answer_blue_24dp"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.SplashActivity"
-            android:theme="@style/SplashTheme"/>
-        <activity android:name=".ui.EnterUser" />
+
         <activity android:name=".ui.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
