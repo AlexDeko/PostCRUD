@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.postcrud.R
 import com.postcrud.data.Post
 import com.postcrud.data.PostType
-import com.postcarutin.data.adapters.holders.*
 import com.postcrud.data.adapters.holders.*
 
 const val VIEW_TYPE_POST = 1

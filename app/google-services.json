@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "594449236585",
+    "firebase_url": "https://postcrud-5dac1.firebaseio.com",
+    "project_id": "postcrud-5dac1",
+    "storage_bucket": "postcrud-5dac1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:594449236585:android:4f63133b00787b2f3498f8",
+        "android_client_info": {
+          "package_name": "com.postcrud"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "594449236585-f59ebucdrkis7idbhobjp330d47icobh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBetAKnLxK7LCmFt3pfyVVHT2hLOBuPFgE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "594449236585-f59ebucdrkis7idbhobjp330d47icobh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -53,6 +53,7 @@ class PostViewHolder(adapter: PostRecyclerAdapter, view: View) : BaseViewHolder(
             this.textItem.text = post.text
             this.titleItem.text = post.author
             this.dateItem.text = post.date
+            countVisible.text = post.countViews.toString()
             countLikes.text = post.like.count.toString()
             countReply.text = post.reply?.count.toString()
             countComments.text = post.comment.count.toString()

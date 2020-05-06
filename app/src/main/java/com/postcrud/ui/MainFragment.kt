@@ -15,6 +15,7 @@ import com.postcrud.client.Api
 import com.postcrud.data.DataServer
 import com.postcrud.data.Post
 import com.postcrud.data.adapters.PostRecyclerAdapter
+import io.ktor.util.KtorExperimentalAPI
 import kotlinx.android.synthetic.main.fragment_main.*
 import kotlinx.coroutines.*
 
@@ -34,6 +35,7 @@ class MainFragment : Fragment(), CoroutineScope by MainScope() {
         super.onViewCreated(view, savedInstanceState)
     }
 
+    @KtorExperimentalAPI
     private fun setList(list: MutableList<Post>) = launch {
         withContext(Dispatchers.Main) {
             with(recyclerListPosts) {
@@ -44,6 +46,7 @@ class MainFragment : Fragment(), CoroutineScope by MainScope() {
         }
     }
 
+    @KtorExperimentalAPI
     private fun fetchData() = launch {
         try {
             setList(list = DataServer.getData())

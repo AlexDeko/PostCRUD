@@ -32,7 +32,8 @@ data class PostModel(
     val address: String? = null,
     val coordinates: Long? = null,
     val video: Video? = null,
-    val adsUrl: String? = null
+    val adsUrl: String? = null,
+    val countViews: String? = null
 ) {
 
 }
