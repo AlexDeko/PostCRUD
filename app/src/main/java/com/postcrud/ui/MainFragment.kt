@@ -30,7 +30,7 @@ class MainFragment : Fragment(), CoroutineScope by MainScope() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        fetchData()
+      //  fetchData()
 
         super.onViewCreated(view, savedInstanceState)
     }

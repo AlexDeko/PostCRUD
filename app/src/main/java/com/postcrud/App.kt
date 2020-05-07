@@ -38,7 +38,6 @@ class App : Application() {
 val networkModule = module {
     single {
 
-
         OkHttpClient.Builder()
             .followSslRedirects(true)
             .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
@@ -73,7 +72,7 @@ val networkModule = module {
     single { get<Retrofit>().create(AuthApi::class.java) }
     single { get<Retrofit>().create(NewsApi::class.java) }
     single { get<Retrofit>().create(ProfileApi::class.java) }
-    single { get<Retrofit>().create(TimetableApi::class.java) }
+
 }
 
 val sharedPreferencesModule = module {
