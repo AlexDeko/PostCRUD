@@ -5,7 +5,7 @@
     android:opacity="opaque">
 
     <item
-        android:drawable="@color/colorBackgroundSplash"/>
+        android:drawable="@color/colorBackground"/>
 
     <item
     android:drawable="@drawable/ic_question_answer_blue_24dp"

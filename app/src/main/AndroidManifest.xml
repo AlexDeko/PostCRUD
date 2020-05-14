@@ -18,7 +18,7 @@
         android:theme="@style/AppTheme"
         tools:targetApi="n">
 
-        <activity android:name=".ui.MainActivity">
+        <activity android:name="com.postcrud.feature.ui.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

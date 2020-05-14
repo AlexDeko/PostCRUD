@@ -3,7 +3,6 @@ package com.postcrud
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
-import com.bumptech.glide.annotation.GlideModule
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Response
@@ -14,8 +13,8 @@ import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
-import com.postcrud.client.api.*
-import com.postcrud.client.utils.getString
+import com.postcrud.core.api.*
+import com.postcrud.core.utils.getString
 
 class App : Application() {
 
@@ -62,7 +61,7 @@ val networkModule = module {
 
     single {
         Retrofit.Builder()
-            .baseUrl("http://server-post.herokuapp.com/apps/server-post/api/v1/")
+            .baseUrl("https://server-post.herokuapp.com/apps/server-post/api/v1/")
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
             .client(get<OkHttpClient>())
@@ -80,9 +79,3 @@ val sharedPreferencesModule = module {
 }
 
 const val PREFS_TOKEN = "token"
-const val PREFS_TIMETABLE = "timetable"
-const val PREFS_ALARM = "alarm"
-const val PREFS_ALARM_HOUR = "hour"
-const val PREFS_ALARM_MINUTE = "minute"
-
-const val ARGS_POST = "post"

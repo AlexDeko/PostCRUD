@@ -13,4 +13,6 @@
     <string name="email">Email</string>
     <string name="password">Пароль</string>
     <string name="message_post_like">Ваш великолепный пост кому-то понравился</string>
+    <string name="singUp">Регистрация</string>
+    <string name="signIn">Вход</string>
 </resources>

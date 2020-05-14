@@ -2,19 +2,19 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/navigation_global"
-    app:startDestination="@id/mainFragment">
+    app:startDestination="@id/splashFragment">
 
 
     <fragment
         android:id="@+id/mainFragment"
-        android:name="com.postcrud.ui.MainFragment"
+        android:name="com.postcrud.feature.ui.MainFragment"
         android:label="MainFragment" >
 
     </fragment>
 
     <fragment
         android:id="@+id/authFragment"
-        android:name="com.postcrud.ui.AuthFragment"
+        android:name="com.postcrud.feature.ui.AuthFragment"
         android:label="MainFragment" >
 
         <action
@@ -24,7 +24,7 @@
 
     <fragment
         android:id="@+id/splashFragment"
-        android:name="com.postcrud.ui.SplashFragment"
+        android:name="com.postcrud.feature.ui.SplashFragment"
         android:label="MainFragment" >
 
         <action

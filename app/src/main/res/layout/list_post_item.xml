@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -9,7 +9,8 @@
     android:layout_marginBottom="@dimen/list_item_padding"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent"
-    card_view:cardCornerRadius="24dp">
+    card_view:cardCornerRadius="24dp"
+    android:backgroundTint="@color/colorBackground">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/linerCard"
@@ -26,8 +27,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_question_answer_blue_48dp" />
 
-
-        <androidx.appcompat.widget.AppCompatTextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/dateItem"
             style="@style/TextAppearance.MaterialComponents.Body2"
             android:layout_width="wrap_content"
@@ -44,7 +44,7 @@
             app:layout_constraintStart_toEndOf="@+id/appCompatImageView"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.appcompat.widget.AppCompatTextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/titleItem"
             style="@style/TextAppearance.MaterialComponents.Headline6"
             android:layout_width="@dimen/title_card"
@@ -61,7 +61,7 @@
             app:layout_constraintStart_toEndOf="@+id/appCompatImageView"
             app:layout_constraintTop_toBottomOf="@+id/dateItem" />
 
-        <androidx.appcompat.widget.AppCompatTextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/textItem"
             style="@style/TextAppearance.MaterialComponents.Headline6"
             android:layout_width="wrap_content"
@@ -78,6 +78,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/appCompatImageView" />
 
+
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/imageButtonLike"
             android:layout_width="wrap_content"
@@ -92,7 +93,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textItem" />
 
-        <androidx.appcompat.widget.AppCompatTextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/countLikes"
             style="@style/TextAppearance.MaterialComponents.Overline"
             android:layout_width="wrap_content"
@@ -121,7 +122,7 @@
             app:layout_constraintStart_toEndOf="@+id/countLikes"
             app:layout_constraintTop_toBottomOf="@id/textItem" />
 
-        <androidx.appcompat.widget.AppCompatTextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/countComments"
             style="@style/TextAppearance.MaterialComponents.Overline"
             android:layout_width="wrap_content"
@@ -136,7 +137,7 @@
             app:layout_constraintStart_toEndOf="@+id/imageButtonComment"
             app:layout_constraintTop_toBottomOf="@+id/textItem" />
 
-        <androidx.appcompat.widget.AppCompatImageButton
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/imageButtonReply"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -149,7 +150,7 @@
             app:layout_constraintStart_toEndOf="@+id/countComments"
             app:layout_constraintTop_toBottomOf="@+id/textItem" />
 
-        <androidx.appcompat.widget.AppCompatTextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/countReply"
             style="@style/TextAppearance.MaterialComponents.Overline"
             android:layout_width="wrap_content"
@@ -171,11 +172,13 @@
             android:layout_marginTop="16dp"
             android:backgroundTint="@color/colorNull"
             android:src="@drawable/ic_location_on_blue_24dp"
+            app:iconTint="@color/colorPrimaryDark"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@id/countReply"
-            app:layout_constraintTop_toBottomOf="@id/textItem" />
+            app:layout_constraintTop_toBottomOf="@id/textItem"
+            app:layout_constraintVertical_bias="0.5" />
 
 
         <androidx.appcompat.widget.AppCompatImageButton
@@ -191,7 +194,7 @@
             app:layout_constraintStart_toEndOf="@+id/imageButtonLocation"
             app:layout_constraintTop_toBottomOf="@+id/textItem" />
 
-        <androidx.appcompat.widget.AppCompatTextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/countVisible"
             style="@style/TextAppearance.MaterialComponents.Overline"
             android:layout_width="wrap_content"
@@ -210,4 +213,4 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>
