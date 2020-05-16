@@ -5,8 +5,8 @@ import android.net.Uri
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.postcrud.R
-import com.postcrud.feature.data.Post
 import com.postcrud.feature.data.adapters.PostRecyclerAdapter
+import com.postcrud.feature.data.dto.PostResponseDto
 import kotlinx.android.synthetic.main.list_event_item.view.*
 
 class EventViewHolder(adapter: PostRecyclerAdapter, view: View) : BaseViewHolder(adapter, view) {
@@ -36,7 +36,7 @@ class EventViewHolder(adapter: PostRecyclerAdapter, view: View) : BaseViewHolder
                         action = Intent.ACTION_SEND
                         putExtra(
                             Intent.EXTRA_TEXT, """
-                                ${item.author} (${item.created})
+                                ${item.author} (${item.createdDate})
     
                                 ${item.content}
                             """.trimIndent()
@@ -53,9 +53,10 @@ class EventViewHolder(adapter: PostRecyclerAdapter, view: View) : BaseViewHolder
                     val intent = Intent().apply {
                         action = Intent.ACTION_VIEW
                         data = Uri.parse(
-                            if (isLetter(item.location) && isDigit(item.location) || isLetter(item.location)) {
-                                resources.getString(R.string.geoAddressGM, item.location)
-                            } else resources.getString(R.string.geoCoordinatesGM, item.location)
+                            if (isLetter(item.selectedLocation)
+                                && isDigit(item.selectedLocation) || isLetter(item.selectedLocation)) {
+                                resources.getString(R.string.geoAddressGM, item.selectedLocation)
+                            } else resources.getString(R.string.geoCoordinatesGM, item.selectedLocation)
                         )
                     }
                     itemView.context.startActivity(intent)
@@ -64,12 +65,12 @@ class EventViewHolder(adapter: PostRecyclerAdapter, view: View) : BaseViewHolder
         }
     }
 
-    override fun bind(post: Post) {
+    override fun bind(post: PostResponseDto) {
         with(itemView) {
             this.textItem.text = post.content
             this.titleItem.text = post.author
-            this.dateItem.text = post.created.toString()
-            locationTextView.text = post.location
+            this.dateItem.text = post.createdDate.toString()
+            locationTextView.text = post.selectedLocation
             countLikes.text = post.countLike.toString()
             countReply.text = post.countRepost.toString()
             countComments.text = post.countComment.toString()

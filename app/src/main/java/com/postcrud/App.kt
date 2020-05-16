@@ -61,7 +61,7 @@ val networkModule = module {
 
     single {
         Retrofit.Builder()
-            .baseUrl("https://server-post.herokuapp.com/apps/server-post/api/v1/")
+            .baseUrl("https://server-post.herokuapp.com/api/v1/")
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
             .client(get<OkHttpClient>())

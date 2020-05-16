@@ -1,12 +1,12 @@
 package com.postcrud.feature.data.adapters
 
-import com.postcrud.feature.data.Post
+import com.postcrud.feature.data.dto.PostResponseDto
 import com.postcrud.feature.data.model.PostType
 import java.util.*
 
 object SortList {
 
-    fun sortList(list: MutableList<Post>): MutableList<Post> {
+    fun sortList(list: MutableList<PostResponseDto>): MutableList<PostResponseDto> {
         val adsPost = list.indexOfLast {
             it.type == PostType.ADS
         }

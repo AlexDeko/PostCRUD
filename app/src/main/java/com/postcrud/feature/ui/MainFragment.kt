@@ -1,7 +1,6 @@
 package com.postcrud.feature.ui
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,13 +8,20 @@ import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.postcrud.R
-import com.postcrud.feature.data.Post
+import com.postcrud.core.BaseFragment
+import com.postcrud.core.api.NewsApi
 import com.postcrud.feature.data.adapters.PostRecyclerAdapter
+import com.postcrud.feature.data.dto.PostResponseDto
 import io.ktor.util.KtorExperimentalAPI
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.rxkotlin.addTo
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_main.*
 import kotlinx.coroutines.*
+import org.koin.android.ext.android.get
 
-class MainFragment : Fragment(), CoroutineScope by MainScope() {
+class MainFragment : BaseFragment(), CoroutineScope by MainScope() {
+    private val posts: NewsApi = get()
 
 
     override fun onCreateView(
@@ -26,13 +32,13 @@ class MainFragment : Fragment(), CoroutineScope by MainScope() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-      //  fetchData()
+        fetchData()
 
         super.onViewCreated(view, savedInstanceState)
     }
 
     @KtorExperimentalAPI
-    private fun setList(list: MutableList<Post>) = launch {
+    private fun setList(list: MutableList<PostResponseDto>) = launch {
         withContext(Dispatchers.Main) {
             with(recyclerListPosts) {
                 layoutManager = LinearLayoutManager(requireContext())
@@ -44,14 +50,38 @@ class MainFragment : Fragment(), CoroutineScope by MainScope() {
 
     @KtorExperimentalAPI
     private fun fetchData() = launch {
+        changeProgressState(true)
         try {
+
+            posts.getPosts().subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doFinally {
+                    changeProgressState(false)
+                }
+                .subscribe({ postList ->
+                    setList(list = postList.toMutableList())
+
+
+                }, {
+
+                    Toast.makeText(context, it.localizedMessage, Toast.LENGTH_LONG).show()
+                })
+                .addTo(compositeDisposable)
             //setList()
-            indeterminateBar.visibility = View.GONE
+
         } catch (e: Exception) {
             Toast.makeText(
                 requireContext(), getString(R.string.request_internet_false),
                 Toast.LENGTH_LONG
             ).show()
+        }
+
+    }
+
+    private fun changeProgressState(state: Boolean) {
+        when (state) {
+            true -> indeterminateBar.show()
+            false -> indeterminateBar.hide()
         }
     }
 

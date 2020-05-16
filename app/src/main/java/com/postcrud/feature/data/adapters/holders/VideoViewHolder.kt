@@ -5,8 +5,8 @@ import android.net.Uri
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.postcrud.R
-import com.postcrud.feature.data.Post
 import com.postcrud.feature.data.adapters.PostRecyclerAdapter
+import com.postcrud.feature.data.dto.PostResponseDto
 import kotlinx.android.synthetic.main.list_video_item.view.*
 
 class VideoViewHolder(adapter: PostRecyclerAdapter, view: View) : BaseViewHolder(adapter, view) {
@@ -15,14 +15,14 @@ class VideoViewHolder(adapter: PostRecyclerAdapter, view: View) : BaseViewHolder
             imageButtonLike.setOnClickListener {
                 if (adapterPosition != RecyclerView.NO_POSITION) {
                     val item = adapter.list[adapterPosition]
-                    item.like.isLiked = !item.like.isLiked
+                    item.isLike = !item.isLike
 
-                    if (item.like.isLiked) {
+                    if (item.isLike) {
                         imageButtonLike.setImageResource(R.drawable.ic_favorite_24dp)
-                        item.like.count += 1L
+                        item.countLike += 1L
                     } else {
                         imageButtonLike.setImageResource(R.drawable.ic_favorite_border_24dp)
-                        item.like.count -= 1L
+                        item.countLike -= 1L
                     }
 
                     adapter.notifyItemChanged(adapterPosition)
@@ -36,11 +36,11 @@ class VideoViewHolder(adapter: PostRecyclerAdapter, view: View) : BaseViewHolder
                         action = Intent.ACTION_SEND
                         putExtra(
                             Intent.EXTRA_TEXT, """
-                                ${item.author} (${item.date})
+                                ${item.author} (${item.createdDate})
     
-                                ${item.text}
+                                ${item.content}
                                 
-                                Ссылка на видео: ${if (item.video!!.isHas()) item.video.url else "Пока нет"}
+                                
                             """.trimIndent()
                         )
                         type = "text/plain"
@@ -54,7 +54,7 @@ class VideoViewHolder(adapter: PostRecyclerAdapter, view: View) : BaseViewHolder
                     val item = adapter.list[adapterPosition]
                     val intent = Intent().apply {
                         action = Intent.ACTION_VIEW
-                        data = Uri.parse(item.video?.url)
+                        data = Uri.parse(item.videoUrl)
                     }
                     itemView.context.startActivity(intent)
                 }
@@ -62,16 +62,16 @@ class VideoViewHolder(adapter: PostRecyclerAdapter, view: View) : BaseViewHolder
         }
     }
 
-    override fun bind(post: Post) {
+    override fun bind(post: PostResponseDto) {
         with(itemView) {
-            this.textItem.text = post.text
+            this.textItem.text = post.content
             this.titleItem.text = post.author
-            this.dateItem.text = post.date
-            countLikes.text = post.like.count.toString()
-            countReply.text = post.reply?.count.toString()
-            countComments.text = post.comment.count.toString()
+            this.dateItem.text = post.createdDate.toString()
+            countLikes.text = post.countLike.toString()
+            countReply.text = post.countRepost.toString()
+            countComments.text = post.countComment.toString()
 
-            imageButtonLike.setImageResource(if (post.like.isLiked) R.drawable.ic_favorite_24dp else R.drawable.ic_favorite_border_24dp)
+            imageButtonLike.setImageResource(if (post.isLike) R.drawable.ic_favorite_24dp else R.drawable.ic_favorite_border_24dp)
 
             if (countLikes.text == "0") {
                 countLikes.visibility = View.INVISIBLE

@@ -3,9 +3,9 @@ package com.postcrud.feature.data.adapters.holders
 import android.content.Intent
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import com.postcrud.feature.data.Post
 import com.postcrud.R
 import com.postcrud.feature.data.adapters.PostRecyclerAdapter
+import com.postcrud.feature.data.dto.PostResponseDto
 import kotlinx.android.synthetic.main.list_repost_item.view.*
 
 class RepostViewHolder(adapter: PostRecyclerAdapter, view: View) : BaseViewHolder(adapter, view) {
@@ -34,7 +34,7 @@ class RepostViewHolder(adapter: PostRecyclerAdapter, view: View) : BaseViewHolde
                         action = Intent.ACTION_SEND
                         putExtra(
                             Intent.EXTRA_TEXT, """
-                                ${item.author} (${item.created})
+                                ${item.author} (${item.createdDate})
     
                                 ${item.content}
                             """.trimIndent()
@@ -47,11 +47,11 @@ class RepostViewHolder(adapter: PostRecyclerAdapter, view: View) : BaseViewHolde
         }
     }
 
-    override fun bind(post: Post) {
+    override fun bind(post: PostResponseDto) {
         with(itemView) {
             this.textItem.text = post.content
             this.titleItem.text = post.author
-            this.dateItem.text = post.created.toString()
+            this.dateItem.text = post.createdDate.toString()
             //toDo repost
             this.replyDateItem.text = post.ownerId.toString()
             this.replyTitleItem.text = post.ownerId.toString()

@@ -23,14 +23,14 @@ data class PostModel(
 )
 
 enum class PostType {
-    @SerializedName("PostType.POST")
+    @SerializedName("POST")
     POST,
-    @SerializedName("PostType.REPOST")
+    @SerializedName("REPOST")
     REPOST,
-    @SerializedName("PostType.ADS")
+    @SerializedName("ADS")
     ADS,
-    @SerializedName("PostType.VIDEO")
+    @SerializedName("VIDEO")
     VIDEO,
-    @SerializedName("PostType.EVENT")
+    @SerializedName("EVENT")
     EVENT
 }

@@ -5,8 +5,8 @@ import android.net.Uri
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.postcrud.R
-import com.postcrud.feature.data.Post
 import com.postcrud.feature.data.adapters.PostRecyclerAdapter
+import com.postcrud.feature.data.dto.PostResponseDto
 import kotlinx.android.synthetic.main.list_ads_item.view.*
 
 class AdsViewHolder(adapter: PostRecyclerAdapter, view: View) : BaseViewHolder(adapter, view) {
@@ -36,7 +36,7 @@ class AdsViewHolder(adapter: PostRecyclerAdapter, view: View) : BaseViewHolder(a
                         action = Intent.ACTION_SEND
                         putExtra(
                             Intent.EXTRA_TEXT, """
-                                ${item.author} (${item.created})
+                                ${item.author} (${item.createdDate})
     
                                 ${item.content}
                             """.trimIndent()
@@ -66,7 +66,7 @@ class AdsViewHolder(adapter: PostRecyclerAdapter, view: View) : BaseViewHolder(a
         }
     }
 
-    override fun bind(post: Post) {
+    override fun bind(post: PostResponseDto) {
         with(itemView) {
             this.textItem.text = post.content
             this.adsAuthor.text = post.author

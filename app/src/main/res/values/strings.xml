@@ -6,10 +6,7 @@
     <string name="geoCoordinatesGM">geo:%s</string>
     <string name="geoAddressGM">geo:?q=%s</string>
     <string name="ads">Реклама</string>
-    <string name="request_permission_true">Разрешение получено</string>
-    <string name="request_permission_false">Разрешение не получено</string>
     <string name="request_internet_false">Данные с сети не получены</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="email">Email</string>
     <string name="password">Пароль</string>
     <string name="message_post_like">Ваш великолепный пост кому-то понравился</string>

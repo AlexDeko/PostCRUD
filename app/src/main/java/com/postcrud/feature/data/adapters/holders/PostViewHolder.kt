@@ -4,8 +4,8 @@ import android.content.Intent
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.postcrud.R
-import com.postcrud.feature.data.Post
 import com.postcrud.feature.data.adapters.PostRecyclerAdapter
+import com.postcrud.feature.data.dto.PostResponseDto
 import kotlinx.android.synthetic.main.list_post_item.view.*
 
 class PostViewHolder(adapter: PostRecyclerAdapter, view: View) : BaseViewHolder(adapter, view) {
@@ -35,7 +35,7 @@ class PostViewHolder(adapter: PostRecyclerAdapter, view: View) : BaseViewHolder(
                         action = Intent.ACTION_SEND
                         putExtra(
                             Intent.EXTRA_TEXT, """
-                                ${item.author} (${item.created})
+                                ${item.author} (${item.createdDate})
     
                                 ${item.content}
                             """.trimIndent()
@@ -48,11 +48,11 @@ class PostViewHolder(adapter: PostRecyclerAdapter, view: View) : BaseViewHolder(
         }
     }
 
-    override fun bind(post: Post) {
+    override fun bind(post: PostResponseDto) {
         with(itemView) {
             this.textItem.text = post.content
             this.titleItem.text = post.author
-            this.dateItem.text = post.created.toString() // toDo() dateFormatter
+            this.dateItem.text = post.createdDate.toString() // toDo() dateFormatter
             countVisible.text = post.countViews.toString()
             countLikes.text = post.countLike.toString()
             countReply.text = post.countRepost.toString()

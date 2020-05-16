@@ -23,6 +23,6 @@
         style="@android:style/Widget.ProgressBar.Large"
         android:indeterminate="true"
         android:layout_gravity="center"
-        android:visibility="visible"/>
+        android:visibility="gone"/>
 
 </FrameLayout>

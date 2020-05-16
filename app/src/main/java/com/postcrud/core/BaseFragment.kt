@@ -9,7 +9,11 @@ open class BaseFragment : Fragment() {
 
     override fun onStop() {
         super.onStop()
+        compositeDisposable.clear()
+    }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
         compositeDisposable.clear()
     }
 }
