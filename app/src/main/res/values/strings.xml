@@ -12,4 +12,9 @@
     <string name="message_post_like">Ваш великолепный пост кому-то понравился</string>
     <string name="singUp">Регистрация</string>
     <string name="signIn">Вход</string>
+    <string name="toast_againOnBackPressed">Нажмите ещё раз, чтобы выйти.</string>
+    <string name="repeatPassword">Повторите пароль</string>
+    <string name="goRegister">Зарегистрироваться</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

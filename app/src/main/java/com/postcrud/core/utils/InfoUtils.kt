@@ -16,7 +16,6 @@ fun Activity.snack(text: String) {
 }
 
 fun Fragment.snack(text: String) {
-
     val view = requireActivity().window.decorView.rootView
     Snackbar.make(view, text, Snackbar.LENGTH_SHORT).show()
 }

@@ -20,6 +20,19 @@
         <action
             android:id="@+id/action_authFragment_to_mainFragment"
             app:destination="@id/mainFragment" />
+        <action
+            android:id="@+id/action_authFragment_to_registFragment"
+            app:destination="@id/registFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/registFragment"
+        android:name="com.postcrud.feature.ui.MainFragment"
+        android:label="MainFragment" >
+
+        <action
+            android:id="@+id/action_registFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
     </fragment>
 
     <fragment

@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.postcrud.R
 import com.postcrud.core.BaseFragment
 import com.postcrud.core.api.NewsApi
+import com.postcrud.core.utils.toast
 import com.postcrud.feature.data.adapters.PostRecyclerAdapter
 import com.postcrud.feature.data.dto.PostResponseDto
 import io.ktor.util.KtorExperimentalAPI
@@ -53,29 +54,27 @@ class MainFragment : BaseFragment(), CoroutineScope by MainScope() {
         changeProgressState(true)
         try {
 
-            posts.getPosts().subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doFinally {
-                    changeProgressState(false)
-                }
-                .subscribe({ postList ->
-                    setList(list = postList.toMutableList())
-
-
-                }, {
-
-                    Toast.makeText(context, it.localizedMessage, Toast.LENGTH_LONG).show()
-                })
-                .addTo(compositeDisposable)
-            //setList()
+            val list = posts.getPosts()
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .doFinally {
+//                    changeProgressState(false)
+//                }
+//                .subscribe({ postList ->
+//                    setList(list = postList.toMutableList())
+//
+//
+//                }, {
+//
+//                    Toast.makeText(context, it.localizedMessage, Toast.LENGTH_LONG).show()
+//                })
+//                .addTo(compositeDisposable)
+            setList(list = list.toMutableList())
 
         } catch (e: Exception) {
-            Toast.makeText(
-                requireContext(), getString(R.string.request_internet_false),
-                Toast.LENGTH_LONG
-            ).show()
+            toast(getString(R.string.request_internet_false))
         }
-
+        changeProgressState(false)
     }
 
     private fun changeProgressState(state: Boolean) {
