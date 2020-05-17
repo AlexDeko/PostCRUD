@@ -3,16 +3,15 @@ package com.postcrud.feature.ui
 import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.postcrud.PREFS_TOKEN
 
 
 import com.postcrud.R
-import com.postcrud.core.BaseFragment
 import com.postcrud.core.api.AuthApi
+import com.postcrud.core.disposables
 import com.postcrud.core.utils.isValid
 import com.postcrud.core.utils.putString
 import com.postcrud.core.utils.toast
@@ -22,20 +21,17 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_regist.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.koin.android.ext.android.get
+import java.lang.Exception
 
-class RegistFragment : BaseFragment() {
+class RegistFragment : Fragment(R.layout.fragment_regist) {
 
     private val prefs: SharedPreferences = get()
     private val authApi: AuthApi = get()
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-
-        return inflater.inflate(R.layout.fragment_regist, container, false)
-    }
+    private val compositeDisposable by disposables()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -50,30 +46,34 @@ class RegistFragment : BaseFragment() {
 
             prepareAuth()
 
-            authApi.signUp(authenticationRequestDto)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    onAuthSuccess(it)
-                }, {
-                    onAuthError(it)
-                })
-                .addTo(compositeDisposable)
-
+            viewLifecycleOwner.lifecycleScope.launch {
+                try {
+                    val token = authApi.signUp(authenticationRequestDto)
+                    onAuthSuccess(token)
+                } catch (e: Exception) {
+                    onAuthError(e)
+                }
+            }
         }
     }
 
-    private fun onAuthSuccess(authenticationResponseDto: AuthenticationResponseDto) {
-        prefs.putString(PREFS_TOKEN, authenticationResponseDto.token)
-        progressBar.hide()
-        signUpButton.isEnabled = true
-        findNavController().navigate(R.id.action_registFragment_to_mainFragment)
-    }
+    private fun onAuthSuccess(authenticationResponseDto: AuthenticationResponseDto) =
+        viewLifecycleOwner.lifecycleScope.launch {
+            withContext(Dispatchers.Main) {
+                prefs.putString(PREFS_TOKEN, authenticationResponseDto.token)
+                progressBar.hide()
+                signUpButton.isEnabled = true
+                findNavController().navigate(R.id.action_registFragment_to_mainFragment)
+            }
+        }
 
-    private fun onAuthError(throwable: Throwable) {
-        progressBar.hide()
-        signUpButton.isEnabled = true
-        toast(throwable.localizedMessage!!)
+
+    private fun onAuthError(throwable: Throwable) = viewLifecycleOwner.lifecycleScope.launch {
+        withContext(Dispatchers.Main) {
+            progressBar.hide()
+            signUpButton.isEnabled = true
+            toast(throwable.localizedMessage!!)
+        }
     }
 
     private fun getAuthDto(): AuthenticationRequestDto {
@@ -100,45 +100,41 @@ class RegistFragment : BaseFragment() {
         } else if (emailInput.text.toString().isEmpty() && passwordInput.text.toString()
                 .isEmpty()
         ) {
-            emailTextInputLayout.error = "Заполните поле"
-            passwordTextInputLayout.error = "Заполните поле"
+            emailTextInputLayout.error = getString(R.string.errorEmptyEditText)
+            passwordTextInputLayout.error = getString(R.string.errorEmptyEditText)
         } else if (emailInput.text.toString().isEmpty() && repeatPasswordInput.text.toString()
                 .isEmpty()
         ) {
-            emailTextInputLayout.error = "Заполните поле"
-            repeatPasswordTextInputLayout.error = "Заполните поле"
+            emailTextInputLayout.error = getString(R.string.errorEmptyEditText)
+            repeatPasswordTextInputLayout.error = getString(R.string.errorEmptyEditText)
         } else if (passwordInput.text.toString()
                 .isEmpty() && repeatPasswordInput.text.toString().isEmpty()
         ) {
-            passwordTextInputLayout.error = "Заполните поле"
-            repeatPasswordTextInputLayout.error = "Заполните поле"
+            passwordTextInputLayout.error = getString(R.string.errorEmptyEditText)
+            repeatPasswordTextInputLayout.error = getString(R.string.errorEmptyEditText)
         }
 
         if (emailInput.text.toString().isEmpty()) {
-            emailTextInputLayout.error = "Заполните поле"
+            emailTextInputLayout.error = getString(R.string.errorEmptyEditText)
             return true
         }
         if (passwordInput.text.toString().isEmpty()) {
-            passwordTextInputLayout.error = "Заполните поле"
+            passwordTextInputLayout.error = getString(R.string.errorEmptyEditText)
             return true
         }
 
         if (repeatPasswordInput.text.toString().isEmpty()) {
-            repeatPasswordTextInputLayout.error = "Заполните поле"
+            repeatPasswordTextInputLayout.error = getString(R.string.errorEmptyEditText)
             return true
         }
 
         if (isValid(password = passwordInput.text.toString())) {
-            toast(
-                """ Пароль должен содержать минимум 6 символов, иметь хотя бы одну заглавную букву.
-                    Разрешены только английские символы и цифры.
-                """".trimMargin()
-            )
+            toast(getString(R.string.errorValidPassword))
             return true
         }
 
         if (passwordInput.text.toString() != repeatPasswordInput.text.toString()) {
-            toast("Пароли должны совпадать")
+            toast(getString(R.string.errorEqualsPassword))
             return true
         }
 

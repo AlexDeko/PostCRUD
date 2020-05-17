@@ -2,4 +2,5 @@
 <resources>
     <dimen name="list_item_padding">10dp</dimen>
     <dimen name="title_card">280dp</dimen>
+    <dimen name="fab_margin">40dp</dimen>
 </resources>

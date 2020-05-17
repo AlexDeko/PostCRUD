@@ -6,6 +6,6 @@ import retrofit2.http.POST
 interface MediaApi {
 
     @POST("media")
-    fun setMediaPost(): MediaResponseDto
+    suspend fun setMediaPost(): MediaResponseDto
 
 }

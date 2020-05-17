@@ -32,5 +32,7 @@ enum class PostType {
     @SerializedName("VIDEO")
     VIDEO,
     @SerializedName("EVENT")
-    EVENT
+    EVENT,
+    HEADER,
+    FOOTER
 }

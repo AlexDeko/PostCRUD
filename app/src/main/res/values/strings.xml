@@ -17,4 +17,11 @@
     <string name="goRegister">Зарегистрироваться</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="loadNewPosts">Загрузить новые посты</string>
+    <string name="loadMore">Загрузить ещё</string>
+    <string name="contentPosts">Текст будущего будущего поста</string>
+    <string name="errorValidPassword">Пароль должен содержать минимум 6 символов, иметь хотя бы одну заглавную букву.
+        Разрешены только английские символы и цифры.</string>
+    <string name="errorEmptyEditText">Заполните поле</string>
+    <string name="errorEqualsPassword">Пароли должны совпадать</string>
 </resources>

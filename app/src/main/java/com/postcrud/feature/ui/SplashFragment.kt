@@ -12,7 +12,6 @@ import org.koin.android.ext.android.get
 
 class SplashFragment : Fragment() {
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val prefs: SharedPreferences = get()

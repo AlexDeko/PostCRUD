@@ -22,12 +22,13 @@
             app:destination="@id/mainFragment" />
         <action
             android:id="@+id/action_authFragment_to_registFragment"
-            app:destination="@id/registFragment" />
+            app:destination="@id/registFragment"
+            app:popUpTo="@id/authFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/registFragment"
-        android:name="com.postcrud.feature.ui.MainFragment"
+        android:name="com.postcrud.feature.ui.RegistFragment"
         android:label="MainFragment" >
 
         <action
