@@ -69,7 +69,8 @@ val networkModule = module {
     }
 
     single { get<Retrofit>().create(AuthApi::class.java) }
-    single { get<Retrofit>().create(NewsApi::class.java) }
+    single { get<Retrofit>().create(MediaApi::class.java) }
+    single { get<Retrofit>().create(PostsApi::class.java) }
     single { get<Retrofit>().create(ProfileApi::class.java) }
 
 }

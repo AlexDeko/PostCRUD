@@ -21,7 +21,7 @@ import kotlinx.android.synthetic.main.fragment_auth.*
 import org.koin.android.ext.android.get
 
 
-class AuthFragment : BaseFragment(), IOnBackPressed {
+class AuthFragment : BaseFragment() {
 
     private val prefs: SharedPreferences = get()
     private val authApi: AuthApi = get()
@@ -117,9 +117,9 @@ class AuthFragment : BaseFragment(), IOnBackPressed {
         return false
     }
 
-    //двойным нажатием сворачивание экрана из фрагмента
-    override fun onBackPressed(): Boolean {
-        onDoubleBackPressed()
-        return true
-    }
+//    //двойным нажатием сворачивание экрана из фрагмента
+//    override fun onBackPressed(): Boolean {
+//        onDoubleBackPressed()
+//        return true
+//    }
 }

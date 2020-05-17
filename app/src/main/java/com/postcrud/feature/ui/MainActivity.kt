@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.Navigation
 import com.postcrud.R
-import com.postcrud.core.utils.IOnBackPressed
 import kotlinx.coroutines.*
 
 class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {
@@ -15,11 +14,8 @@ class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         Navigation.findNavController(this, R.id.host_global)
     }
 
-    override fun onBackPressed() {
-        val fragment =
-            this.supportFragmentManager.findFragmentById(R.id.host_global)
-        (fragment as? IOnBackPressed)?.onBackPressed()?.not()?.let {
-            super.onBackPressed()
-        }
+    override fun onStop() {
+        super.onStop()
+        cancel()
     }
 }

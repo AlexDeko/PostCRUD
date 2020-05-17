@@ -4,25 +4,21 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.postcrud.R
 import com.postcrud.core.BaseFragment
-import com.postcrud.core.api.NewsApi
+import com.postcrud.core.api.PostsApi
 import com.postcrud.core.utils.toast
 import com.postcrud.feature.data.adapters.PostRecyclerAdapter
 import com.postcrud.feature.data.dto.PostResponseDto
 import io.ktor.util.KtorExperimentalAPI
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.rxkotlin.addTo
-import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_main.*
 import kotlinx.coroutines.*
 import org.koin.android.ext.android.get
 
 class MainFragment : BaseFragment(), CoroutineScope by MainScope() {
-    private val posts: NewsApi = get()
+    private val posts: PostsApi = get()
 
 
     override fun onCreateView(
