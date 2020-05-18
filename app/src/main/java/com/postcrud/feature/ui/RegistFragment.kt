@@ -11,15 +11,11 @@ import com.postcrud.PREFS_TOKEN
 
 import com.postcrud.R
 import com.postcrud.core.api.AuthApi
-import com.postcrud.core.disposables
 import com.postcrud.core.utils.isValid
 import com.postcrud.core.utils.putString
 import com.postcrud.core.utils.toast
 import com.postcrud.feature.data.dto.AuthenticationRequestDto
 import com.postcrud.feature.data.dto.AuthenticationResponseDto
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.rxkotlin.addTo
-import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_regist.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -39,7 +35,7 @@ class RegistFragment : Fragment(R.layout.fragment_regist) {
             passwordTextInputLayout.isErrorEnabled = false
             repeatPasswordTextInputLayout.isErrorEnabled = false
 
-            if (isNotValid()) return@setOnClickListener
+            if (isNotValidInput()) return@setOnClickListener
             val authenticationRequestDto = getAuthDto()
 
             prepareAuth()
@@ -87,7 +83,7 @@ class RegistFragment : Fragment(R.layout.fragment_regist) {
     }
 
 
-    private fun isNotValid(): Boolean {
+    private fun isNotValidInput(): Boolean {
         if (emailInput.text.toString().isEmpty() && passwordInput.text.toString().isEmpty()
             && repeatPasswordInput.text.toString().isEmpty()
         ) {
@@ -126,7 +122,7 @@ class RegistFragment : Fragment(R.layout.fragment_regist) {
             return true
         }
 
-        if (isValid(password = passwordInput.text.toString())) {
+        if (!isValid(password = passwordInput.text.toString())) {
             toast(getString(R.string.errorValidPassword))
             return true
         }

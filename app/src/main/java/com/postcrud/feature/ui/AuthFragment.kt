@@ -14,9 +14,6 @@ import com.postcrud.core.disposables
 import com.postcrud.core.utils.*
 import com.postcrud.feature.data.dto.AuthenticationRequestDto
 import com.postcrud.feature.data.dto.AuthenticationResponseDto
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.rxkotlin.addTo
-import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_auth.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -38,7 +35,7 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
             emailTextInputLayout.isErrorEnabled = false
             passwordTextInputLayout.isErrorEnabled = false
 
-            if (isNotValid()) return@setOnClickListener
+            if (isNotValidInput()) return@setOnClickListener
 
             val authenticationRequestDto = getAuthDto() ?: return@setOnClickListener
             prepareAuth()
@@ -90,7 +87,7 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
         }
     }
 
-    private fun isNotValid(): Boolean {
+    private fun isNotValidInput(): Boolean {
         if (emailInput.text.toString().isEmpty() && passwordInput.text.toString().isEmpty()) {
             emailTextInputLayout.error = getString(R.string.errorEmptyEditText)
             passwordTextInputLayout.error = getString(R.string.errorEmptyEditText)
@@ -106,7 +103,7 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
             return true
         }
 
-        if (isValid(password = passwordInput.text.toString())) {
+        if (!isValid(password = passwordInput.text.toString())) {
             toast(getString(R.string.errorValidPassword))
             return true
         }
