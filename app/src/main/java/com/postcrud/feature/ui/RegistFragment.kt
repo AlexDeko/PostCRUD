@@ -31,7 +31,6 @@ class RegistFragment : Fragment(R.layout.fragment_regist) {
 
     private val prefs: SharedPreferences = get()
     private val authApi: AuthApi = get()
-    private val compositeDisposable by disposables()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -39,7 +38,6 @@ class RegistFragment : Fragment(R.layout.fragment_regist) {
             emailTextInputLayout.isErrorEnabled = false
             passwordTextInputLayout.isErrorEnabled = false
             repeatPasswordTextInputLayout.isErrorEnabled = false
-
 
             if (isNotValid()) return@setOnClickListener
             val authenticationRequestDto = getAuthDto()
@@ -93,9 +91,9 @@ class RegistFragment : Fragment(R.layout.fragment_regist) {
         if (emailInput.text.toString().isEmpty() && passwordInput.text.toString().isEmpty()
             && repeatPasswordInput.text.toString().isEmpty()
         ) {
-            emailTextInputLayout.error = "Заполните поле"
-            passwordTextInputLayout.error = "Заполните поле"
-            repeatPasswordTextInputLayout.error = "Заполните поле"
+            emailTextInputLayout.error = getString(R.string.errorEmptyEditText)
+            passwordTextInputLayout.error = getString(R.string.errorEmptyEditText)
+            repeatPasswordTextInputLayout.error = getString(R.string.errorEmptyEditText)
             return true
         } else if (emailInput.text.toString().isEmpty() && passwordInput.text.toString()
                 .isEmpty()
