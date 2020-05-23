@@ -1,41 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".feature.ui.MainFragment">
+    tools:context=".feature.ui.main.MainFragment">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerListPosts"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        android:cacheColorHint="@color/colorNull"
-        android:dividerHeight="12dp"
-        android:nestedScrollingEnabled="true"
-        android:scrollbars="vertical"
-        tools:listitem="@layout/list_post_item" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerListPosts"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            android:cacheColorHint="@color/colorNull"
+            android:dividerHeight="12dp"
+            android:nestedScrollingEnabled="true"
+            android:scrollbars="vertical"
+            tools:listitem="@layout/list_post_item" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <androidx.core.widget.ContentLoadingProgressBar
         android:id="@+id/indeterminateBar"
+        style="@android:style/Widget.ProgressBar.Large"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="@android:style/Widget.ProgressBar.Large"
-        android:indeterminate="true"
         android:layout_gravity="center"
-        android:visibility="gone"/>
+        android:indeterminate="true"
+        android:visibility="gone" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/createNewPostButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:src="@drawable/ic_add_white_48dp"
+        android:layout_margin="@dimen/fab_margin"
         android:clickable="true"
         android:focusable="true"
-        android:layout_margin="@dimen/fab_margin"
+        android:src="@drawable/ic_add_white_48dp"
         app:borderWidth="0dp"
-        app:elevation="6dp"/>
+        app:elevation="6dp" />
 
 </FrameLayout>

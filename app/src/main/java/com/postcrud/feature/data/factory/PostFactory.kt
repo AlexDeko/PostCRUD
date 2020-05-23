@@ -1,10 +1,11 @@
 package com.postcrud.feature.data.factory
 
 import com.postcrud.feature.data.dto.PostResponseDto
+import com.postcrud.feature.data.dto.user.UserResponseDto
 
-class PostFactory {
-    fun creteNewPost(contentText: String): PostResponseDto {
+
+fun creteNewPost(contentText: String, ownerId: Long, author: String): PostResponseDto {
         return PostResponseDto(
-            id = 0, ownerId = 0, author = "Вася", content = contentText)
+            id = 0, ownerId = ownerId, author = author, content = contentText)
     }
-}
+

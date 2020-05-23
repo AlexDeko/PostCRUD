@@ -1,4 +1,4 @@
-package com.postcrud.feature.ui
+package com.postcrud.feature.ui.auth
 
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -10,7 +10,6 @@ import com.postcrud.PREFS_TOKEN
 
 import com.postcrud.R
 import com.postcrud.core.api.AuthApi
-import com.postcrud.core.disposables
 import com.postcrud.core.utils.*
 import com.postcrud.feature.data.dto.AuthenticationRequestDto
 import com.postcrud.feature.data.dto.AuthenticationResponseDto
@@ -26,7 +25,6 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
 
     private val prefs: SharedPreferences = get()
     private val authApi: AuthApi = get()
-    private val compositeDisposable by disposables()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -43,6 +41,7 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
             viewLifecycleOwner.lifecycleScope.launch {
                 try {
                     val token = authApi.signIn(authenticationRequestDto)
+
                     onAuthSuccess(token)
                 } catch (e: Exception) {
                     onAuthError(e)
@@ -103,7 +102,7 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
             return true
         }
 
-        if (!isValid(password = passwordInput.text.toString())) {
+        if (!isValidPassword(password = passwordInput.text.toString())) {
             toast(getString(R.string.errorValidPassword))
             return true
         }

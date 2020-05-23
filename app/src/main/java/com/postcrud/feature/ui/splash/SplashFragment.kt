@@ -1,4 +1,4 @@
-package com.postcrud.feature.ui
+package com.postcrud.feature.ui.splash
 
 import android.content.SharedPreferences
 import android.os.Bundle

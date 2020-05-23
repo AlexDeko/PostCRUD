@@ -1,4 +1,4 @@
-package com.postcrud.feature.ui
+package com.postcrud.feature.ui.regist
 
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -11,7 +11,7 @@ import com.postcrud.PREFS_TOKEN
 
 import com.postcrud.R
 import com.postcrud.core.api.AuthApi
-import com.postcrud.core.utils.isValid
+import com.postcrud.core.utils.isValidPassword
 import com.postcrud.core.utils.putString
 import com.postcrud.core.utils.toast
 import com.postcrud.feature.data.dto.AuthenticationRequestDto
@@ -61,7 +61,7 @@ class RegistFragment : Fragment(R.layout.fragment_regist) {
             }
         }
 
-
+    //toDo does't register, if input email or username (String) someone using
     private fun onAuthError(throwable: Throwable) = viewLifecycleOwner.lifecycleScope.launch {
         withContext(Dispatchers.Main) {
             progressBar.hide()
@@ -122,7 +122,7 @@ class RegistFragment : Fragment(R.layout.fragment_regist) {
             return true
         }
 
-        if (!isValid(password = passwordInput.text.toString())) {
+        if (!isValidPassword(password = passwordInput.text.toString())) {
             toast(getString(R.string.errorValidPassword))
             return true
         }

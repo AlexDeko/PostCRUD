@@ -24,4 +24,5 @@
         Разрешены только английские символы и цифры.</string>
     <string name="errorEmptyEditText">Заполните поле</string>
     <string name="errorEqualsPassword">Пароли должны совпадать</string>
+    <string name="publishPost">Пост опубликован.</string>
 </resources>

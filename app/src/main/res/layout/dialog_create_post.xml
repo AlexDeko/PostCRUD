@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="6dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="6dp"
         android:hint="@string/contentPosts"
 
@@ -29,9 +29,14 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <LinearLayout
+
+    <com.google.android.material.circularreveal.CircularRevealLinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -41,9 +46,8 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/createPostButton"
-            android:layout_width="250dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="6dp"
             android:backgroundTint="@color/colorAccent"
             android:text="Отправить" />
 
@@ -51,10 +55,9 @@
             android:id="@+id/cancelButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="30dp"
-            android:layout_marginEnd="6dp"
+            android:layout_marginStart="16dp"
             android:text="Отмена" />
 
-    </LinearLayout>
+    </com.google.android.material.circularreveal.CircularRevealLinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
