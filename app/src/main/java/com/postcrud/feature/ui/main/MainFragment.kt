@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 import com.postcrud.R
+import com.postcrud.component.network.isNetworkConnect
 import com.postcrud.core.api.PostsApi
 import com.postcrud.core.api.ProfileApi
 import com.postcrud.core.utils.toast
@@ -26,7 +27,8 @@ import org.koin.android.ext.android.get
 class MainFragment : Fragment(R.layout.fragment_main) {
     private val posts: PostsApi = get()
     private val users: ProfileApi = get()
-    private val postsList: MutableList<PostResponseDto> = emptyArray<PostResponseDto>().toMutableList()
+    private val postsList: MutableList<PostResponseDto> =
+        emptyArray<PostResponseDto>().toMutableList()
     private var page: Int = 1
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -58,7 +60,14 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             withContext(Dispatchers.Main) {
                 with(recyclerListPosts) {
                     layoutManager = LinearLayoutManager(requireContext())
-                    adapter = PostRecyclerAdapter(postsList)
+                    adapter = PostRecyclerAdapter(postsList, {
+                        pushLike(it.id)
+                    }, {
+                        pushDislike(it.id)
+                    }, {
+                        createRepost(it.id)
+                    })
+
                     val scrollListener = object : RecyclerView.OnScrollListener() {
                         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                             super.onScrolled(recyclerView, dx, dy)
@@ -76,86 +85,118 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             }
         }
 
-    @KtorExperimentalAPI
-    private fun fetchData() =
-        viewLifecycleOwner.lifecycleScope.launch {
-            changeProgressState(true)
-            try {
-                val list = posts.getPosts()
-                postsList.addAll(list)
+    private fun pushLike(id: Long) = viewLifecycleOwner.lifecycleScope.launch {
+        try {
+            posts.setLikePost(id)
+        } catch (e: Exception) {
+            networkError(e)
+        }
+    }
 
+
+    private fun pushDislike(id: Long) = viewLifecycleOwner.lifecycleScope.launch {
+        try {
+            posts.setDislikePost(id)
+        } catch (e: Exception) {
+            networkError(e)
+        }
+    }
+
+    private fun createRepost(id: Long) = viewLifecycleOwner.lifecycleScope.launch {
+            try {
+                val post = posts.createRepost(id)
+                onCreatePostSuccess(post)
             } catch (e: Exception) {
-                toast(e.localizedMessage!!)
+                networkError(e)
+            }
+    }
+
+
+        @KtorExperimentalAPI
+        private fun fetchData() {
+            changeProgressState(true)
+            viewLifecycleOwner.lifecycleScope.launch {
+
+                try {
+                    val list = posts.getPosts()
+                    postsList.addAll(list)
+
+                } catch (e: Exception) {
+                    networkError(e)
+                }
+
             }
             changeProgressState(false)
         }
 
-    private fun setFloatActionButton(user: UserResponseDto) =
-        viewLifecycleOwner.lifecycleScope.launch {
-            withContext(Dispatchers.Main) {
-                createNewPostButton.setOnClickListener {
-                    showDialog {
-                        val post: PostResponseDto = creteNewPost(
-                            contentText = it, author = user.username,
-                            ownerId = user.id
-                        )
-                        createPost(post)
+        private fun setFloatActionButton(user: UserResponseDto) =
+            viewLifecycleOwner.lifecycleScope.launch {
+                withContext(Dispatchers.Main) {
+                    createNewPostButton.setOnClickListener {
+                        showDialog {
+                            val post: PostResponseDto = creteNewPost(
+                                contentText = it, author = user.username,
+                                ownerId = user.id
+                            )
+                            createPost(post)
+                        }
                     }
+                }
+            }
+
+        private fun showDialog(createBtnClicked: (content: String) -> Unit) {
+            val dialog = AlertDialog.Builder(requireContext())
+                .setView(R.layout.dialog_create_post)
+                .setCancelable(false)
+                .show()
+
+            with(dialog) {
+                createPostButton.setOnClickListener {
+                    createBtnClicked(textPostInput.text.toString())
+                    hide()
+                }
+                cancelButton.setOnClickListener {
+                    cancel()
                 }
             }
         }
 
-    private fun showDialog(createBtnClicked: (content: String) -> Unit) {
-        val dialog = AlertDialog.Builder(requireContext())
-            .setView(R.layout.dialog_create_post)
-            .setCancelable(false)
-            .show()
-
-        with(dialog) {
-            createPostButton.setOnClickListener {
-                createBtnClicked(textPostInput.text.toString())
-                hide()
-            }
-            cancelButton.setOnClickListener {
-                cancel()
-            }
-        }
-    }
-
-    private fun getUserProfile() = viewLifecycleOwner.lifecycleScope.launch {
-        setFloatActionButton(users.getProfile())
-    }
-
-
-    private fun createPost(postResponseDto: PostResponseDto) =
-        viewLifecycleOwner.lifecycleScope.launch {
-            try {
-                val post = posts.createOrUpdatePost(postResponseDto)
-                onCreatePostSuccess(post)
-            } catch (e: Exception) {
-                onCreatePostError(e)
-            }
+        private fun getUserProfile() = viewLifecycleOwner.lifecycleScope.launch {
+            setFloatActionButton(users.getProfile())
         }
 
-    private fun onCreatePostSuccess(postResponseDto: PostResponseDto) =
-        viewLifecycleOwner.lifecycleScope.launch {
+
+        private fun createPost(postResponseDto: PostResponseDto) =
+            viewLifecycleOwner.lifecycleScope.launch {
+                try {
+                    val post = posts.createOrUpdatePost(postResponseDto)
+                    onCreatePostSuccess(post)
+                } catch (e: Exception) {
+                    networkError(e)
+                }
+            }
+
+        private fun onCreatePostSuccess(postResponseDto: PostResponseDto) =
+            viewLifecycleOwner.lifecycleScope.launch {
+                withContext(Dispatchers.Main) {
+                    postsList.add(postResponseDto)
+                    notifyDataChangeAdapter()
+                    toast(getString(R.string.publishPost))
+                }
+            }
+
+        private fun changeProgressState(state: Boolean) {
+            when (state) {
+                true -> indeterminateBar.show()
+                false -> indeterminateBar.hide()
+            }
+        }
+
+        private fun networkError(e: Exception) = viewLifecycleOwner.lifecycleScope.launch {
             withContext(Dispatchers.Main) {
-                postsList.add(postResponseDto)
-                notifyDataChangeAdapter()
-                toast(getString(R.string.publishPost))
+                if (!isNetworkConnect(requireContext())) errorNoNetwork.visibility = View.VISIBLE
+                else toast(e.localizedMessage!!)
             }
-        }
 
-    private fun onCreatePostError(e: Exception) = viewLifecycleOwner.lifecycleScope.launch {
-        withContext(Dispatchers.Main) {
-            toast(e.localizedMessage!!)
         }
     }
-
-    private fun changeProgressState(state: Boolean) {
-        when (state) {
-            true -> indeterminateBar.show()
-            false -> indeterminateBar.hide()
-        }
-    }
-}

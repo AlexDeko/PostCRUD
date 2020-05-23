@@ -29,7 +29,7 @@ class EventViewHolder(adapter: PostRecyclerAdapter, view: View) : BaseViewHolder
                 }
             }
 
-            imageButtonReply.setOnClickListener {
+            imageButtonRepost.setOnClickListener {
                 if (adapterPosition != RecyclerView.NO_POSITION) {
                     val item = adapter.list[adapterPosition]
                     val intent = Intent().apply {

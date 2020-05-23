@@ -49,14 +49,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/colorAccent"
-            android:text="Отправить" />
+            android:text="@string/send" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/cancelButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:text="Отмена" />
+            android:text="@string/cancel" />
 
     </com.google.android.material.circularreveal.CircularRevealLinearLayout>
 

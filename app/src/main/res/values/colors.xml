@@ -5,5 +5,7 @@
     <color name="colorAccent">#03DAC5</color>
     <color name="colorNull">#00000000</color>
     <color name="colorBlack">#000000</color>
-    <color name="colorBackground">#ECDE62</color>
+    <color name="colorBackground">#FFECDE62</color>
+    <color name="colorBackgroundForRepost">#B775C8</color>
+    <color name="colorErrorNoNetwork">#DF5371</color>
 </resources>

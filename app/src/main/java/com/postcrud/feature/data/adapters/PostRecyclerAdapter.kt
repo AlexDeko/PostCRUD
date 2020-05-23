@@ -3,6 +3,7 @@ package com.postcrud.feature.data.adapters
 import android.content.res.Resources
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.AdapterView
 import androidx.recyclerview.widget.RecyclerView
 import com.postcrud.R
 
@@ -25,7 +26,12 @@ fun viewTypeToPostType(viewType: Int) = when (viewType) {
     else -> TODO("unknown view type")
 }
 
-class PostRecyclerAdapter(val list: MutableList<PostResponseDto>) :
+class PostRecyclerAdapter(
+    val list: MutableList<PostResponseDto>,
+    val onLikeClicked: (PostResponseDto) -> Unit,
+    val onDislikeClicked: (PostResponseDto) -> Unit,
+    val onRepostClicked: (PostResponseDto) -> Unit
+) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =

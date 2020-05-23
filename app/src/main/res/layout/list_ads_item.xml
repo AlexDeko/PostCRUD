@@ -159,13 +159,13 @@
             android:text="@string/countComment"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/imageButtonReply"
+            app:layout_constraintEnd_toStartOf="@+id/imageButtonRepost"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/imageButtonComment"
             app:layout_constraintTop_toBottomOf="@+id/adsImageButton" />
 
         <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/imageButtonReply"
+            android:id="@+id/imageButtonRepost"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -190,7 +190,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/imageButtonLocation"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/imageButtonReply"
+            app:layout_constraintStart_toEndOf="@+id/imageButtonRepost"
             app:layout_constraintTop_toBottomOf="@+id/adsImageButton" />
 
         <androidx.appcompat.widget.AppCompatImageButton

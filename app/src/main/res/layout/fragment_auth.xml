@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+    <com.google.android.material.circularreveal.CircularRevealLinearLayout
         android:id="@+id/inputsLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -46,9 +46,10 @@
                 android:layout_height="wrap_content"
                 android:inputType="textPassword" />
         </com.google.android.material.textfield.TextInputLayout>
-    </LinearLayout>
 
-    <LinearLayout
+    </com.google.android.material.circularreveal.CircularRevealLinearLayout>
+
+    <com.google.android.material.circularreveal.CircularRevealLinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -70,7 +71,7 @@
             android:layout_height="wrap_content"
             android:text="@string/goRegister" />
 
-    </LinearLayout>
+    </com.google.android.material.circularreveal.CircularRevealLinearLayout>
 
     <androidx.core.widget.ContentLoadingProgressBar
         android:id="@+id/progressBar"
@@ -83,7 +84,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
+    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/imageViewAuth"
         android:layout_width="100dp"
         android:layout_height="100dp"

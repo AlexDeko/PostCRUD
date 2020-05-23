@@ -4,6 +4,7 @@ import android.content.Intent
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.postcrud.R
+import com.postcrud.component.formatter.DateFormatter
 import com.postcrud.feature.data.adapters.PostRecyclerAdapter
 import com.postcrud.feature.data.dto.PostResponseDto
 import kotlinx.android.synthetic.main.list_repost_item.view.*
@@ -13,37 +14,29 @@ class RepostViewHolder(adapter: PostRecyclerAdapter, view: View) : BaseViewHolde
         with(itemView) {
             imageButtonLike.setOnClickListener {
                 if (adapterPosition != RecyclerView.NO_POSITION) {
+
                     val item = adapter.list[adapterPosition]
                     item.isLike = !item.isLike
+
                     if (item.isLike) {
                         imageButtonLike.setImageResource(R.drawable.ic_favorite_24dp)
                         item.countLike += 1L
+                        adapter.notifyItemChanged(adapterPosition)
+                        adapter.onLikeClicked(adapter.list[adapterPosition])
                     } else {
                         imageButtonLike.setImageResource(R.drawable.ic_favorite_border_24dp)
                         item.countLike -= 1L
+                        adapter.notifyItemChanged(adapterPosition)
+                        adapter.onDislikeClicked(adapter.list[adapterPosition])
                     }
-
-                    adapter.notifyItemChanged(adapterPosition)
                 }
             }
 
-            imageButtonReply.setOnClickListener {
-                if (adapterPosition != RecyclerView.NO_POSITION) {
-                    val item = adapter.list[adapterPosition]
-                    val intent = Intent().apply {
-                        action = Intent.ACTION_SEND
-                        putExtra(
-                            Intent.EXTRA_TEXT, """
-                                ${item.author} (${item.createdDate})
-    
-                                ${item.content}
-                            """.trimIndent()
-                        )
-                        type = "text/plain"
-                    }
-                    itemView.context.startActivity(intent)
-                }
+            imageButtonRepost.setOnClickListener {
+                if (adapterPosition != RecyclerView.NO_POSITION)
+                    adapter.onRepostClicked(adapter.list[adapterPosition])
             }
+
         }
     }
 
@@ -51,8 +44,7 @@ class RepostViewHolder(adapter: PostRecyclerAdapter, view: View) : BaseViewHolde
         with(itemView) {
             this.textItem.text = post.content
             this.titleItem.text = post.author
-            this.dateItem.text = post.createdDate.toString()
-            //toDo repost
+            this.dateItem.text = DateFormatter().getFormatDate(post.createdDate)
             this.replyDateItem.text = post.ownerId.toString()
             this.replyTitleItem.text = post.ownerId.toString()
             this.replyTextItem.text = post.ownerId.toString()
