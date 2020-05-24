@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.postcrud.PAGE_SIZE
 import com.postcrud.component.lifecycle.MutableSingleLiveEvent
 import com.postcrud.component.lifecycle.SingleLiveEvent
 import com.postcrud.component.network.ErrorUiModel
@@ -20,9 +21,6 @@ import kotlinx.coroutines.launch
 //toDo()
 class MainViewModel : ViewModel() {
 
-    companion object {
-        private const val PAGE_SIZE = 10
-    }
 
     private val _errorEvent = MutableSingleLiveEvent<NetworkError>()
     val errorEvent: SingleLiveEvent<NetworkError>
@@ -39,13 +37,11 @@ class MainViewModel : ViewModel() {
     private var targetData: List<PostResponseDto> = emptyList()
 
 
-
     fun showNextPage() = currentState.showNextPage()
 
     fun refresh(): Unit = currentState.refresh()
 
     fun retry(): Unit = currentState.retry()
-
 
 
     private object Empty : PagingState<PostResponseDto>
@@ -215,9 +211,9 @@ class MainViewModel : ViewModel() {
             try {
                 val page = targetData.size / PAGE_SIZE + 1
 
-            //    val nextPage = search.invoke(query, PAGE_SIZE, page).map(::RepositoryUiModel)
+                //    val nextPage = search.invoke(query, PAGE_SIZE, page).map(::RepositoryUiModel)
 
-           //     currentState.newData(nextPage)
+                //     currentState.newData(nextPage)
             } catch (exception: CancellationException) {
                 throw exception
             } catch (exception: Exception) {
@@ -231,10 +227,10 @@ class MainViewModel : ViewModel() {
         loadPageJob?.cancel()
         refreshJob = viewModelScope.launch {
             try {
-            //    val newPage = search.invoke(query, PAGE_SIZE, 1).map(::PostResponseDto)
+                //    val newPage = search.invoke(query, PAGE_SIZE, 1).map(::PostResponseDto)
 
                 targetData = emptyList()
-              //  currentState.newData(newPage)
+                //  currentState.newData(newPage)
             } catch (exception: CancellationException) {
                 throw exception
             } catch (exception: Exception) {

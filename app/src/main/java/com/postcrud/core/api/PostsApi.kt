@@ -8,6 +8,12 @@ interface PostsApi {
     @GET("posts")
     suspend fun getPosts(): List<PostResponseDto>
 
+    @GET("posts/{id}/{count}")
+    suspend fun getPage(@Path("id") id: Long, @Path("count") count: Int): List<PostResponseDto>
+
+    @GET("posts/last/{count}")
+    suspend fun getLastPage(@Path("count") count: Int): List<PostResponseDto>
+
     @GET("posts/{id}")
     suspend fun getPostsById(@Path("id") id: Long): PostResponseDto
 

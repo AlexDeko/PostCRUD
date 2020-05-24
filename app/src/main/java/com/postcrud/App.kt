@@ -80,3 +80,4 @@ val sharedPreferencesModule = module {
 }
 
 const val PREFS_TOKEN = "token"
+const val PAGE_SIZE = 20

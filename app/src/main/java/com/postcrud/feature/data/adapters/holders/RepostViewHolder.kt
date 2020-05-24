@@ -1,6 +1,5 @@
 package com.postcrud.feature.data.adapters.holders
 
-import android.content.Intent
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.postcrud.R
@@ -14,21 +13,20 @@ class RepostViewHolder(adapter: PostRecyclerAdapter, view: View) : BaseViewHolde
         with(itemView) {
             imageButtonLike.setOnClickListener {
                 if (adapterPosition != RecyclerView.NO_POSITION) {
-
                     val item = adapter.list[adapterPosition]
-                    item.isLike = !item.isLike
+                    if (item.isLike) adapter.onLikeClicked(item)
+                    else adapter.onDislikeClicked(item)
 
+                    item.isLike = !item.isLike
                     if (item.isLike) {
                         imageButtonLike.setImageResource(R.drawable.ic_favorite_24dp)
                         item.countLike += 1L
-                        adapter.notifyItemChanged(adapterPosition)
-                        adapter.onLikeClicked(adapter.list[adapterPosition])
+
                     } else {
                         imageButtonLike.setImageResource(R.drawable.ic_favorite_border_24dp)
                         item.countLike -= 1L
-                        adapter.notifyItemChanged(adapterPosition)
-                        adapter.onDislikeClicked(adapter.list[adapterPosition])
                     }
+                    adapter.notifyItemChanged(adapterPosition)
                 }
             }
 
@@ -36,7 +34,6 @@ class RepostViewHolder(adapter: PostRecyclerAdapter, view: View) : BaseViewHolde
                 if (adapterPosition != RecyclerView.NO_POSITION)
                     adapter.onRepostClicked(adapter.list[adapterPosition])
             }
-
         }
     }
 
