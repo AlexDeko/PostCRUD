@@ -7,7 +7,7 @@ data class PostModel(
     val ownerId: Long,
     val author: String,
     val createdDate: Long,
-    var content: String? = null,
+    var content: String = "",
     var countLike: Long = 0,
     var isLike: Boolean = false,
     var countRepost: Long = 0,

@@ -2,6 +2,8 @@ package com.postcrud.feature.data.factory
 
 import com.postcrud.feature.data.dto.PostResponseDto
 import com.postcrud.feature.data.dto.user.UserResponseDto
+import java.text.DateFormat
+import java.util.*
 
 
 fun creteNewPost(contentText: String, ownerId: Long, author: String): PostResponseDto {

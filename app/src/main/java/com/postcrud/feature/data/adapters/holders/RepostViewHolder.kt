@@ -44,8 +44,8 @@ class RepostViewHolder(adapter: PostRecyclerAdapter, view: View) : BaseViewHolde
             this.titleItem.text = post.author
             this.dateItem.text = DateFormatter().getFormatDate(post.createdDate)
             this.replyDateItem.text = DateFormatter().getFormatDate(post.repost!!.createdDate)
-            this.replyTitleItem.text = post.repost.author
-            this.replyTextItem.text = post.repost.content
+            this.replyTitleItem.text = post.repost!!.author
+            this.replyTextItem.text = post.repost!!.content
             this.countLikes.text = post.countLike.toString()
             this.countReply.text = post.countRepost.toString()
             this.countComments.text = post.countComment.toString()

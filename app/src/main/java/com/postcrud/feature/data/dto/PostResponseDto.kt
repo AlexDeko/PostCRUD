@@ -8,8 +8,8 @@ data class PostResponseDto(
     val id: Long,
     val ownerId: Long,
     val author: String,
-    val createdDate: Long = Date().time,
-    var content: String? = null,
+    val createdDate: Long = (System.currentTimeMillis() / 1000L),
+    var content: String = "",
     var countLike: Long = 0,
     var isLike: Boolean = false,
     var countRepost: Long = 0,
@@ -22,7 +22,7 @@ data class PostResponseDto(
     val countComment: Long = 0,
     val isCanCommented: Boolean = true,
     val selectedLocation: String? = null,
-    val repost: PostResponseDto? = null
+    var repost: PostResponseDto? = null
 ) {
     companion object {
         fun fromModel(model: PostModel) = PostResponseDto(

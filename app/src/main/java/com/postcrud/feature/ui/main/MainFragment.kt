@@ -18,6 +18,7 @@ import com.postcrud.feature.data.adapters.PostRecyclerAdapter
 import com.postcrud.feature.data.dto.PostResponseDto
 import com.postcrud.feature.data.dto.user.UserResponseDto
 import com.postcrud.feature.data.factory.*
+import com.postcrud.feature.data.model.PostType
 import io.ktor.util.KtorExperimentalAPI
 import kotlinx.android.synthetic.main.dialog_create_post.*
 import kotlinx.android.synthetic.main.fragment_main.*
@@ -118,6 +119,13 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         viewLifecycleOwner.lifecycleScope.launch {
             try {
                 val pageList = posts.getLastPage(PAGE_SIZE)
+                if (pageList.isNotEmpty()) {
+                    for (i in 0..pageList.size){
+                        if (pageList[i].type == PostType.REPOST)
+                            pageList[i].repost = posts.getPostsById(pageList[i].parentId!!)
+                    }
+                }
+
                 addPostsInList(pageList)
 
             } catch (e: Exception) {
