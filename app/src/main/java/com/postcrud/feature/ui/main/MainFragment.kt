@@ -61,7 +61,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             withContext(Dispatchers.Main) {
                 with(recyclerListPosts) {
                     layoutManager = LinearLayoutManager(requireContext())
-                    adapter = PostRecyclerAdapter(postsList, {
+                    adapter = PostRecyclerAdapter(postsList.asReversed(), {
                         pushLike(it.id)
                     }, {
                         pushDislike(it.id)
@@ -120,7 +120,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             try {
                 val pageList = posts.getLastPage(PAGE_SIZE)
                 if (pageList.isNotEmpty()) {
-                    for (i in 0..pageList.size){
+                    for (i in pageList.indices){
                         if (pageList[i].type == PostType.REPOST)
                             pageList[i].repost = posts.getPostsById(pageList[i].parentId!!)
                     }
@@ -228,6 +228,5 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             if (!isNetworkConnect(requireContext())) errorNoNetwork.visibility = View.VISIBLE
             else toast(e.localizedMessage!!)
         }
-
     }
 }
