@@ -39,15 +39,16 @@ class RepostViewHolder(adapter: PostRecyclerAdapter, view: View) : BaseViewHolde
 
     override fun bind(post: PostResponseDto) {
         with(itemView) {
-            this.textItem.text = post.content
+            //toDo() need add fun for created new content in repost
+            //this.textItem.text = post.content
             this.titleItem.text = post.author
             this.dateItem.text = DateFormatter().getFormatDate(post.createdDate)
-            this.replyDateItem.text = post.ownerId.toString()
-            this.replyTitleItem.text = post.ownerId.toString()
-            this.replyTextItem.text = post.ownerId.toString()
-            countLikes.text = post.countLike.toString()
-            countReply.text = post.countRepost.toString()
-            countComments.text = post.countComment.toString()
+            this.replyDateItem.text = DateFormatter().getFormatDate(post.repost!!.createdDate)
+            this.replyTitleItem.text = post.repost.author
+            this.replyTextItem.text = post.repost.content
+            this.countLikes.text = post.countLike.toString()
+            this.countReply.text = post.countRepost.toString()
+            this.countComments.text = post.countComment.toString()
 
             imageButtonLike.setImageResource(if (post.isLike) R.drawable.ic_favorite_24dp else R.drawable.ic_favorite_border_24dp)
 

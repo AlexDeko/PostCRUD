@@ -99,7 +99,7 @@
             android:layout_marginTop="10dp"
             android:maxEms="10"
             android:text="21.03.2020"
-            android:textColor="#999999"
+            android:textColor="#333232"
             android:textSize="10sp"
             android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"

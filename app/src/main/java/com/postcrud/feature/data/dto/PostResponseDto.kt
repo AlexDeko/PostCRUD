@@ -2,12 +2,13 @@ package com.postcrud.feature.data.dto
 
 import com.postcrud.feature.data.model.PostModel
 import com.postcrud.feature.data.model.PostType
+import java.util.*
 
 data class PostResponseDto(
     val id: Long,
     val ownerId: Long,
     val author: String,
-    val createdDate: Long = (System.currentTimeMillis() / 1000L),
+    val createdDate: Long = Date().time,
     var content: String? = null,
     var countLike: Long = 0,
     var isLike: Boolean = false,
@@ -20,7 +21,8 @@ data class PostResponseDto(
     val videoUrl: String? = null,
     val countComment: Long = 0,
     val isCanCommented: Boolean = true,
-    val selectedLocation: String? = null
+    val selectedLocation: String? = null,
+    val repost: PostResponseDto? = null
 ) {
     companion object {
         fun fromModel(model: PostModel) = PostResponseDto(

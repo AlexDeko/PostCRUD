@@ -35,12 +35,11 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         loadLastPage()
-        //fetchData()
+
         setList()
         getUserProfile()
         setSwipeRefresh()
         super.onViewCreated(view, savedInstanceState)
-
     }
 
     private fun setSwipeRefresh() {
@@ -106,7 +105,9 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     private fun createRepost(id: Long) = viewLifecycleOwner.lifecycleScope.launch {
         try {
             val post = posts.createRepost(id)
-            onCreatePostSuccess(post)
+            val repost = posts.getPostsById(post.parentId!!)
+            val targetRepost = post.copy(repost = repost, author = users.getProfile().username)
+            onCreatePostSuccess(targetRepost)
         } catch (e: Exception) {
             networkError(e)
         }
