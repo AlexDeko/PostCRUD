@@ -7,10 +7,10 @@
     android:layout_height="wrap_content"
     android:layout_marginTop="@dimen/list_item_padding"
     android:layout_marginBottom="@dimen/list_item_padding"
+    android:backgroundTint="@color/colorBackground"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent"
-    card_view:cardCornerRadius="24dp"
-    android:backgroundTint="@color/colorBackground">
+    card_view:cardCornerRadius="24dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/linerCard"
@@ -79,6 +79,20 @@
             app:layout_constraintTop_toBottomOf="@+id/appCompatImageView" />
 
 
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imagePost"
+            android:layout_width="0dp"
+            android:layout_height="400dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="24dp"
+            android:adjustViewBounds="true"
+            app:layout_constraintBottom_toTopOf="@+id/imageButtonRepost"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textItem"
+            app:layout_constraintVertical_bias="1.0"
+            tools:srcCompat="@drawable/ic_photo_black_96dp" />
+
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/imageButtonLike"
             android:layout_width="wrap_content"
@@ -91,7 +105,8 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textItem" />
+            app:layout_constraintTop_toBottomOf="@+id/textItem"
+            app:layout_constraintVertical_bias="1.0" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/countLikes"
@@ -106,7 +121,8 @@
             app:layout_constraintEnd_toStartOf="@+id/imageButtonComment"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/imageButtonLike"
-            app:layout_constraintTop_toBottomOf="@id/textItem" />
+            app:layout_constraintTop_toBottomOf="@id/textItem"
+            app:layout_constraintVertical_bias="1.0" />
 
 
         <androidx.appcompat.widget.AppCompatImageButton
@@ -120,7 +136,8 @@
             app:layout_constraintEnd_toStartOf="@+id/countComments"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/countLikes"
-            app:layout_constraintTop_toBottomOf="@id/textItem" />
+            app:layout_constraintTop_toBottomOf="@id/textItem"
+            app:layout_constraintVertical_bias="1.0" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/countComments"
@@ -135,7 +152,8 @@
             app:layout_constraintEnd_toStartOf="@+id/imageButtonRepost"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/imageButtonComment"
-            app:layout_constraintTop_toBottomOf="@+id/textItem" />
+            app:layout_constraintTop_toBottomOf="@+id/textItem"
+            app:layout_constraintVertical_bias="1.0" />
 
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/imageButtonRepost"
@@ -148,7 +166,8 @@
             app:layout_constraintEnd_toStartOf="@id/countReply"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/countComments"
-            app:layout_constraintTop_toBottomOf="@+id/textItem" />
+            app:layout_constraintTop_toBottomOf="@+id/textItem"
+            app:layout_constraintVertical_bias="1.0" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/countReply"
@@ -163,7 +182,8 @@
             app:layout_constraintEnd_toStartOf="@id/imageButtonLocation"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/imageButtonRepost"
-            app:layout_constraintTop_toBottomOf="@+id/textItem" />
+            app:layout_constraintTop_toBottomOf="@+id/textItem"
+            app:layout_constraintVertical_bias="1.0" />
 
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/imageButtonLocation"
@@ -178,7 +198,7 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@id/countReply"
             app:layout_constraintTop_toBottomOf="@id/textItem"
-            app:layout_constraintVertical_bias="0.5" />
+            app:layout_constraintVertical_bias="1.0" />
 
 
         <androidx.appcompat.widget.AppCompatImageButton
@@ -192,7 +212,8 @@
             app:layout_constraintEnd_toEndOf="@id/countVisible"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/imageButtonLocation"
-            app:layout_constraintTop_toBottomOf="@+id/textItem" />
+            app:layout_constraintTop_toBottomOf="@+id/textItem"
+            app:layout_constraintVertical_bias="1.0" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/countVisible"
@@ -207,8 +228,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/imageVisible"
-            app:layout_constraintTop_toBottomOf="@+id/textItem" />
-
+            app:layout_constraintTop_toBottomOf="@+id/textItem"
+            app:layout_constraintVertical_bias="1.0" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

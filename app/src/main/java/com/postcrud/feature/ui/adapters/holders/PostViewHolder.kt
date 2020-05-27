@@ -1,27 +1,28 @@
-package com.postcrud.feature.data.adapters.holders
+package com.postcrud.feature.ui.adapters.holders
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.postcrud.R
 import com.postcrud.component.formatter.DateFormatter
-import com.postcrud.feature.data.adapters.PostRecyclerAdapter
+import com.postcrud.feature.ui.adapters.PostRecyclerAdapter
 import com.postcrud.feature.data.dto.PostResponseDto
-import kotlinx.android.synthetic.main.list_repost_item.view.*
+import kotlinx.android.synthetic.main.list_post_item.view.*
 
-class RepostViewHolder(adapter: PostRecyclerAdapter, view: View) : BaseViewHolder(adapter, view) {
+class PostViewHolder(adapter: PostRecyclerAdapter, view: View) : BaseViewHolder(adapter, view) {
     init {
+
         with(itemView) {
             imageButtonLike.setOnClickListener {
                 if (adapterPosition != RecyclerView.NO_POSITION) {
                     val item = adapter.list[adapterPosition]
-                    if (item.isLike) adapter.onLikeClicked(item)
-                    else adapter.onDislikeClicked(item)
+                    if (item.isLike) adapter.onLikeClicked(adapter.list[adapterPosition])
+                    else adapter.onDislikeClicked(adapter.list[adapterPosition])
 
                     item.isLike = !item.isLike
                     if (item.isLike) {
                         imageButtonLike.setImageResource(R.drawable.ic_favorite_24dp)
                         item.countLike += 1L
-
                     } else {
                         imageButtonLike.setImageResource(R.drawable.ic_favorite_border_24dp)
                         item.countLike -= 1L
@@ -34,21 +35,19 @@ class RepostViewHolder(adapter: PostRecyclerAdapter, view: View) : BaseViewHolde
                 if (adapterPosition != RecyclerView.NO_POSITION)
                     adapter.onRepostClicked(adapter.list[adapterPosition])
             }
+
         }
     }
 
     override fun bind(post: PostResponseDto) {
         with(itemView) {
-            //toDo() need add fun for created new content in repost
-            //this.textItem.text = post.content
+            this.textItem.text = post.content
             this.titleItem.text = post.author
             this.dateItem.text = DateFormatter().getFormatDate(post.createdDate)
-            this.replyDateItem.text = DateFormatter().getFormatDate(post.repost!!.createdDate)
-            this.replyTitleItem.text = post.repost!!.author
-            this.replyTextItem.text = post.repost!!.content
-            this.countLikes.text = post.countLike.toString()
-            this.countReply.text = post.countRepost.toString()
-            this.countComments.text = post.countComment.toString()
+            countVisible.text = post.countViews.toString()
+            countLikes.text = post.countLike.toString()
+            countReply.text = post.countRepost.toString()
+            countComments.text = post.countComment.toString()
 
             imageButtonLike.setImageResource(if (post.isLike) R.drawable.ic_favorite_24dp else R.drawable.ic_favorite_border_24dp)
 
@@ -63,6 +62,15 @@ class RepostViewHolder(adapter: PostRecyclerAdapter, view: View) : BaseViewHolde
             if (countReply.text == "0") {
                 countReply.visibility = View.INVISIBLE
             } else countReply.visibility = View.VISIBLE
+
+            if (post.imageId != null) {
+                Glide.with(context)
+                    .load("https://server-post.herokuapp.com/api/v1/media/${post.imageId}")
+                    .centerCrop()
+                    .placeholder(R.drawable.ic_photo_black_96dp)
+                    .into(imagePost)
+
+            }
         }
     }
 }

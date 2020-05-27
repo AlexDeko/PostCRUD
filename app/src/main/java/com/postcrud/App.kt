@@ -81,3 +81,7 @@ val sharedPreferencesModule = module {
 
 const val PREFS_TOKEN = "token"
 const val PAGE_SIZE = 20
+const val API_SHARED_FILE = "API_shared_file"
+const val FIRST_TIME_SHARED_KEY = "first_time_shared_key"
+const val LAST_TIME_VISIT_SHARED_KEY = "last_time_visit_shared_key"
+const val SHOW_NOTIFICATION_AFTER_UNVISITED_MS = 10L * 60L * 1000L

@@ -15,7 +15,7 @@ data class PostModel(
     val adsUrl: String? = null,
     var countViews: Long = 0,
     val parentId: Long? = null,
-    val imageId: Long? = null,
+    val imageId: String?= null,
     val videoUrl: String? = null,
     val countComment: Long = 0,
     val isCanCommented: Boolean = true,

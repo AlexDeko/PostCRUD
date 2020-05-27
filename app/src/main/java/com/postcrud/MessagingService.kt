@@ -16,7 +16,7 @@ import com.google.firebase.messaging.RemoteMessage
 
 class MessagingService : FirebaseMessagingService() {
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
+
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         val map = remoteMessage.data
         val builder: NotificationCompat.Builder
@@ -43,7 +43,9 @@ class MessagingService : FirebaseMessagingService() {
                 .setContentIntent(cancelIntent)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
         }
-        createNotificationChannel()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            createNotificationChannel()
+        }
         val notificationManager = NotificationManagerCompat.from(this)
         notificationManager.notify(1, builder.build())
     }
@@ -61,18 +63,5 @@ class MessagingService : FirebaseMessagingService() {
             NotificationManager::class.java
         )
         notificationManager?.createNotificationChannel(channel)
-    }
-
-    inner class NotificationCancelReceiver : BroadcastReceiver() {
-        @RequiresApi(api = Build.VERSION_CODES.M)
-        override fun onReceive(
-            context: Context,
-            intent: Intent
-        ) {
-            val notificationManager = getSystemService(
-                NotificationManager::class.java
-            )
-            notificationManager?.cancelAll()
-        }
     }
 }

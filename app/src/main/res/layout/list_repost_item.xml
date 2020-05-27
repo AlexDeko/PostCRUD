@@ -7,10 +7,10 @@
     android:layout_height="wrap_content"
     android:layout_marginTop="@dimen/list_item_padding"
     android:layout_marginBottom="@dimen/list_item_padding"
+    android:backgroundTint="@color/colorBackgroundForRepost"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent"
-    card_view:cardCornerRadius="24dp"
-    android:backgroundTint="@color/colorBackgroundForRepost">
+    card_view:cardCornerRadius="24dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/linerCard"

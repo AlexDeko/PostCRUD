@@ -29,7 +29,6 @@ class RegistFragment : Fragment(R.layout.fragment_regist) {
     private val authApi: AuthApi = get()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
         signUpButton.setOnClickListener {
             emailTextInputLayout.isErrorEnabled = false
             passwordTextInputLayout.isErrorEnabled = false
@@ -51,23 +50,18 @@ class RegistFragment : Fragment(R.layout.fragment_regist) {
         }
     }
 
-    private fun onAuthSuccess(authenticationResponseDto: AuthenticationResponseDto) =
-        viewLifecycleOwner.lifecycleScope.launch {
-            withContext(Dispatchers.Main) {
-                prefs.putString(PREFS_TOKEN, authenticationResponseDto.token)
-                progressBar.hide()
-                signUpButton.isEnabled = true
-                findNavController().navigate(R.id.action_registFragment_to_mainFragment)
-            }
-        }
+    private fun onAuthSuccess(authenticationResponseDto: AuthenticationResponseDto) {
+        prefs.putString(PREFS_TOKEN, authenticationResponseDto.token)
+        progressBar.hide()
+        signUpButton.isEnabled = true
+        findNavController().navigate(R.id.action_registFragment_to_mainFragment)
+    }
 
     //toDo does't register, if input email or username (String) someone using
-    private fun onAuthError(throwable: Throwable) = viewLifecycleOwner.lifecycleScope.launch {
-        withContext(Dispatchers.Main) {
-            progressBar.hide()
-            signUpButton.isEnabled = true
-            toast(throwable.localizedMessage!!)
-        }
+    private fun onAuthError(throwable: Throwable) {
+        progressBar.hide()
+        signUpButton.isEnabled = true
+        toast(throwable.localizedMessage!!)
     }
 
     private fun getAuthDto(): AuthenticationRequestDto {

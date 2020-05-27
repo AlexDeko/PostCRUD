@@ -7,11 +7,9 @@ import androidx.lifecycle.viewModelScope
 import com.postcrud.PAGE_SIZE
 import com.postcrud.component.lifecycle.MutableSingleLiveEvent
 import com.postcrud.component.lifecycle.SingleLiveEvent
-import com.postcrud.component.network.ErrorUiModel
 import com.postcrud.component.network.NetworkError
 import com.postcrud.component.network.NetworkErrorHandler
 import com.postcrud.core.state.PagingState
-import com.postcrud.core.state.StateUi
 import com.postcrud.core.state.UiState
 import com.postcrud.feature.data.dto.PostResponseDto
 import kotlinx.coroutines.CancellationException

@@ -1,11 +1,11 @@
-package com.postcrud.feature.data.adapters.holders
+package com.postcrud.feature.ui.adapters.holders
 
 import android.content.Intent
 import android.net.Uri
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.postcrud.R
-import com.postcrud.feature.data.adapters.PostRecyclerAdapter
+import com.postcrud.feature.ui.adapters.PostRecyclerAdapter
 import com.postcrud.feature.data.dto.PostResponseDto
 import kotlinx.android.synthetic.main.list_event_item.view.*
 

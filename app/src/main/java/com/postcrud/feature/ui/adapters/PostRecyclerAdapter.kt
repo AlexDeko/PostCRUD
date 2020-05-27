@@ -1,13 +1,12 @@
-package com.postcrud.feature.data.adapters
+package com.postcrud.feature.ui.adapters
 
-import android.content.res.Resources
+import android.graphics.Bitmap
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.AdapterView
 import androidx.recyclerview.widget.RecyclerView
 import com.postcrud.R
 
-import com.postcrud.feature.data.adapters.holders.*
+import com.postcrud.feature.ui.adapters.holders.*
 import com.postcrud.feature.data.dto.PostResponseDto
 import com.postcrud.feature.data.model.PostType
 
@@ -27,10 +26,11 @@ fun viewTypeToPostType(viewType: Int) = when (viewType) {
 }
 
 class PostRecyclerAdapter(
-    val list: MutableList<PostResponseDto>,
+    var list: MutableList<PostResponseDto>,
     val onLikeClicked: (PostResponseDto) -> Unit,
     val onDislikeClicked: (PostResponseDto) -> Unit,
-    val onRepostClicked: (PostResponseDto) -> Unit
+    val onRepostClicked: (PostResponseDto) -> Unit,
+    val imageBitmap: Bitmap?
 ) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 

@@ -1,5 +1,6 @@
 package com.postcrud.feature.data.dto
 
+import android.graphics.Bitmap
 import com.postcrud.feature.data.model.PostModel
 import com.postcrud.feature.data.model.PostType
 import java.util.*
@@ -17,12 +18,13 @@ data class PostResponseDto(
     val adsUrl: String? = null,
     var countViews: Long = 0,
     val parentId: Long? = null,
-    val imageId: Long? = null,
+    val imageId: String? = null,
     val videoUrl: String? = null,
     val countComment: Long = 0,
     val isCanCommented: Boolean = true,
     val selectedLocation: String? = null,
-    var repost: PostResponseDto? = null
+    var repost: PostResponseDto? = null,
+    var bitmap: Bitmap? = null
 ) {
     companion object {
         fun fromModel(model: PostModel) = PostResponseDto(

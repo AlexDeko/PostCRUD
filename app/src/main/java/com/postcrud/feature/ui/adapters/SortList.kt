@@ -1,4 +1,4 @@
-package com.postcrud.feature.data.adapters
+package com.postcrud.feature.ui.adapters
 
 import com.postcrud.feature.data.dto.PostResponseDto
 import com.postcrud.feature.data.model.PostType

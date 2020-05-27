@@ -14,9 +14,7 @@ import com.postcrud.core.utils.*
 import com.postcrud.feature.data.dto.AuthenticationRequestDto
 import com.postcrud.feature.data.dto.AuthenticationResponseDto
 import kotlinx.android.synthetic.main.fragment_auth.*
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import org.koin.android.ext.android.get
 import java.lang.Exception
 
@@ -27,8 +25,6 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
     private val authApi: AuthApi = get()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
         signInButton.setOnClickListener {
             emailTextInputLayout.isErrorEnabled = false
             passwordTextInputLayout.isErrorEnabled = false
@@ -66,24 +62,19 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
         signInButton.isEnabled = false
     }
 
-    private fun onAuthSuccess(authenticationResponseDto: AuthenticationResponseDto) =
-        viewLifecycleOwner.lifecycleScope.launch {
-            withContext(Dispatchers.Main) {
-                prefs.putString(PREFS_TOKEN, authenticationResponseDto.token)
-                progressBar.visibility = View.GONE
-                signUpButton.isEnabled = true
-                signInButton.isEnabled = true
-                findNavController().navigate(R.id.action_authFragment_to_mainFragment)
-            }
-        }
+    private fun onAuthSuccess(authenticationResponseDto: AuthenticationResponseDto) {
+        prefs.putString(PREFS_TOKEN, authenticationResponseDto.token)
+        progressBar.visibility = View.GONE
+        signUpButton.isEnabled = true
+        signInButton.isEnabled = true
+        findNavController().navigate(R.id.action_authFragment_to_mainFragment)
+    }
 
-    private fun onAuthError(throwable: Throwable) = viewLifecycleOwner.lifecycleScope.launch {
-        withContext(Dispatchers.Main) {
-            progressBar.hide()
-            signUpButton.isEnabled = true
-            signInButton.isEnabled = true
-            toast(throwable.localizedMessage!!)
-        }
+    private fun onAuthError(throwable: Throwable) {
+        progressBar.hide()
+        signUpButton.isEnabled = true
+        signInButton.isEnabled = true
+        toast(throwable.localizedMessage!!)
     }
 
     private fun isNotValidInput(): Boolean {
