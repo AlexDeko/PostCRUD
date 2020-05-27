@@ -64,13 +64,14 @@ class PostViewHolder(adapter: PostRecyclerAdapter, view: View) : BaseViewHolder(
             } else countReply.visibility = View.VISIBLE
 
             if (post.imageId != null) {
+                imagePost.visibility = View.VISIBLE
                 Glide.with(context)
                     .load("https://server-post.herokuapp.com/api/v1/media/${post.imageId}")
                     .centerCrop()
                     .placeholder(R.drawable.ic_photo_black_96dp)
                     .into(imagePost)
 
-            }
+            } else imagePost.visibility = View.GONE
         }
     }
 }

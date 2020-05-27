@@ -86,6 +86,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginBottom="24dp"
             android:adjustViewBounds="true"
+            android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@+id/imageButtonRepost"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

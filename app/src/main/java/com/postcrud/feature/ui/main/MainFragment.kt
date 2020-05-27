@@ -24,6 +24,7 @@ import com.postcrud.feature.data.dto.PostResponseDto
 import com.postcrud.feature.data.dto.user.UserResponseDto
 import com.postcrud.component.factory.*
 import com.postcrud.feature.data.model.PostType
+import com.postcrud.feature.ui.adapters.diff_util.PostDiffUtilResult
 import io.ktor.util.KtorExperimentalAPI
 import kotlinx.android.synthetic.main.dialog_create_post.*
 import kotlinx.android.synthetic.main.fragment_main.*
@@ -63,7 +64,9 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     }
 
     private fun notifyDataChangeAdapter() {
-        recyclerListPosts.adapter?.notifyDataSetChanged()
+        PostDiffUtilResult().getDIffUtilResult(
+            recyclerAdapter = recyclerListPosts.adapter as PostRecyclerAdapter,
+            baseListNote = postsList.asReversed())
     }
 
     private fun setList() {
@@ -166,7 +169,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     }
 
     private fun addPostsInList(list: List<PostResponseDto>) {
-        postsList.addAll(list)
+        postsList.addAll(list.asReversed())
         notifyDataChangeAdapter()
     }
 
