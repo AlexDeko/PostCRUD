@@ -92,6 +92,10 @@ class EventViewHolder(adapter: PostRecyclerAdapter, view: View) : BaseViewHolder
         }
     }
 
+    override fun bindLike(post: PostResponseDto, isLikePost: Boolean, countLikePost: Long) {
+
+    }
+
     private fun isLetter(query: String?): Boolean {
         if (query != null) {
             for (element in query) if (Character.isLetter(element)) {

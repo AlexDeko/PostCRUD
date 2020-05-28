@@ -7,9 +7,12 @@ import com.postcrud.R
 import com.postcrud.component.formatter.DateFormatter
 import com.postcrud.feature.ui.adapters.PostRecyclerAdapter
 import com.postcrud.feature.data.dto.PostResponseDto
+import com.postcrud.feature.ui.adapters.Payload
 import kotlinx.android.synthetic.main.list_post_item.view.*
 
-class PostViewHolder(adapter: PostRecyclerAdapter, view: View) : BaseViewHolder(adapter, view) {
+class PostViewHolder(adapter: PostRecyclerAdapter, view: View) :
+    BaseViewHolder(adapter, view) {
+
     init {
 
         with(itemView) {
@@ -27,7 +30,7 @@ class PostViewHolder(adapter: PostRecyclerAdapter, view: View) : BaseViewHolder(
                         imageButtonLike.setImageResource(R.drawable.ic_favorite_border_24dp)
                         item.countLike -= 1L
                     }
-                    adapter.notifyItemChanged(adapterPosition)
+                    adapter.notifyItemChanged(adapterPosition, Payload.LIKE_CHANGE)
                 }
             }
 
@@ -72,6 +75,13 @@ class PostViewHolder(adapter: PostRecyclerAdapter, view: View) : BaseViewHolder(
                     .into(imagePost)
 
             } else imagePost.visibility = View.GONE
+        }
+    }
+
+    override fun bindLike(post: PostResponseDto, isLikePost: Boolean, countLikePost: Long) {
+        with(itemView) {
+            imageButtonLike.setImageResource(if (post.isLike) R.drawable.ic_favorite_24dp else R.drawable.ic_favorite_border_24dp)
+            countLikes.text = post.countLike.toString()
         }
     }
 }

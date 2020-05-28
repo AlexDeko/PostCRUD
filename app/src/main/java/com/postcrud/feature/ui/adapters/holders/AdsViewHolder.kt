@@ -90,4 +90,8 @@ class AdsViewHolder(adapter: PostRecyclerAdapter, view: View) : BaseViewHolder(a
             } else countReply.visibility = View.VISIBLE
         }
     }
+
+    override fun bindLike(post: PostResponseDto, isLikePost: Boolean, countLikePost: Long) {
+
+    }
 }

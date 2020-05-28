@@ -87,4 +87,8 @@ class VideoViewHolder(adapter: PostRecyclerAdapter, view: View) : BaseViewHolder
             } else countReply.visibility = View.VISIBLE
         }
     }
+
+    override fun bindLike(post: PostResponseDto, isLikePost: Boolean, countLikePost: Long) {
+
+    }
 }

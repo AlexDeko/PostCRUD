@@ -6,6 +6,7 @@ import com.postcrud.R
 import com.postcrud.component.formatter.DateFormatter
 import com.postcrud.feature.ui.adapters.PostRecyclerAdapter
 import com.postcrud.feature.data.dto.PostResponseDto
+import com.postcrud.feature.ui.adapters.Payload
 import kotlinx.android.synthetic.main.list_post_item.view.*
 import kotlinx.android.synthetic.main.list_repost_item.view.*
 import kotlinx.android.synthetic.main.list_repost_item.view.countComments
@@ -34,7 +35,7 @@ class RepostViewHolder(adapter: PostRecyclerAdapter, view: View) : BaseViewHolde
                         imageButtonLike.setImageResource(R.drawable.ic_favorite_border_24dp)
                         item.countLike -= 1L
                     }
-                    adapter.notifyItemChanged(adapterPosition)
+                    adapter.notifyItemChanged(adapterPosition, Payload.LIKE_CHANGE)
                 }
             }
 
@@ -74,6 +75,13 @@ class RepostViewHolder(adapter: PostRecyclerAdapter, view: View) : BaseViewHolde
             if (countReply.text == "0") {
                 countReply.visibility = View.INVISIBLE
             } else countReply.visibility = View.VISIBLE
+        }
+    }
+
+    override fun bindLike(post: PostResponseDto, isLikePost: Boolean, countLikePost: Long) {
+        with(itemView) {
+            imageButtonLike.setImageResource(if (post.isLike) R.drawable.ic_favorite_24dp else R.drawable.ic_favorite_border_24dp)
+            countLikes.text = post.countLike.toString()
         }
     }
 }

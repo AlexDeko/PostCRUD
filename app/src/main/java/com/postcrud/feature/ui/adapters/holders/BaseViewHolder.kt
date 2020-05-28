@@ -8,4 +8,5 @@ import com.postcrud.feature.data.dto.PostResponseDto
 abstract class BaseViewHolder(val adapter: PostRecyclerAdapter, view: View) :
     RecyclerView.ViewHolder(view) {
     abstract fun bind(post: PostResponseDto)
+    abstract fun bindLike(post: PostResponseDto, isLikePost: Boolean, countLikePost: Long)
 }

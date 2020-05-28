@@ -215,7 +215,11 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     }
 
     private fun getUserProfile() = viewLifecycleOwner.lifecycleScope.launch {
-        setFloatActionButton(users.getProfile())
+        try {
+            setFloatActionButton(users.getProfile())
+        } catch (e: Exception) {
+            networkError(e)
+        }
     }
 
 

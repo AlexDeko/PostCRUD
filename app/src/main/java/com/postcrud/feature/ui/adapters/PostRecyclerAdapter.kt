@@ -91,11 +91,40 @@ class PostRecyclerAdapter(
         PostType.EVENT -> VIEW_TYPE_EVENT
     }
 
+    override fun onBindViewHolder(
+        holder: RecyclerView.ViewHolder,
+        position: Int,
+        payloads: MutableList<Any>
+    ) {
+        if (payloads.isEmpty()) {
+            onBindViewHolder(holder, position)
+        } else {
+            for (i in payloads.indices) {
+                when (payloads[i]) {
+                    Payload.LIKE_CHANGE -> {
+                        with(holder as BaseViewHolder) {
+                            bindLike(
+                                list[position],
+                                list[position].isLike,
+                                list[position].countLike
+                            )
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         with(holder as BaseViewHolder) {
             bind(list[position])
         }
     }
+
+}
+
+enum class Payload {
+    LIKE_CHANGE
 }
 
 
