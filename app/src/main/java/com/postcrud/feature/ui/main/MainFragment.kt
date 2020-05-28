@@ -11,9 +11,13 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkManager
 import com.postcrud.PAGE_SIZE
 
 import com.postcrud.R
+import com.postcrud.SHOW_NOTIFICATION_AFTER_UNVISITED_MS
 import com.postcrud.component.network.isNetworkConnect
 import com.postcrud.core.api.MediaApi
 import com.postcrud.core.api.PostsApi
@@ -23,6 +27,10 @@ import com.postcrud.feature.ui.adapters.PostRecyclerAdapter
 import com.postcrud.feature.data.dto.PostResponseDto
 import com.postcrud.feature.data.dto.user.UserResponseDto
 import com.postcrud.component.factory.*
+import com.postcrud.component.notification.NotificationHelper
+import com.postcrud.component.notification.UserNotHereWorker
+import com.postcrud.core.utils.isFirstTimeWork
+import com.postcrud.core.utils.setLastVisitTimeWork
 import com.postcrud.feature.data.model.PostType
 import com.postcrud.feature.ui.adapters.diff_util.PostDiffUtilResult
 import io.ktor.util.KtorExperimentalAPI
@@ -34,6 +42,7 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import org.koin.android.ext.android.get
 import java.io.ByteArrayOutputStream
+import java.util.concurrent.TimeUnit
 
 @KtorExperimentalAPI
 class MainFragment : Fragment(R.layout.fragment_main) {
@@ -48,6 +57,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     private var imageId: String? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        scheduleJob()
         loadLastPage()
         setList()
         getUserProfile()
@@ -264,6 +274,29 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         }
 
     }
+
+    private fun scheduleJob() {
+        val checkWork =
+            PeriodicWorkRequestBuilder<UserNotHereWorker>(
+                SHOW_NOTIFICATION_AFTER_UNVISITED_MS,
+                TimeUnit.MILLISECONDS
+            ).build()
+
+        WorkManager.getInstance(requireContext())
+            .enqueueUniquePeriodicWork("user_present_work",
+                ExistingPeriodicWorkPolicy.KEEP, checkWork)
+    }
+
+    override fun onDestroy() {
+        if (isFirstTimeWork(requireContext())) {
+            NotificationHelper.comeBackNotification(requireContext())
+            setLastVisitTimeWork(requireContext(), System.currentTimeMillis())
+        }else{
+            setLastVisitTimeWork(requireContext(), System.currentTimeMillis())
+        }
+        super.onDestroy()
+    }
+
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == AppCompatActivity.RESULT_OK) {
