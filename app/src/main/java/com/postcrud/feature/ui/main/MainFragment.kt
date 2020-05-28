@@ -26,7 +26,7 @@ import com.postcrud.core.utils.toast
 import com.postcrud.feature.ui.adapters.PostRecyclerAdapter
 import com.postcrud.feature.data.dto.PostResponseDto
 import com.postcrud.feature.data.dto.user.UserResponseDto
-import com.postcrud.component.factory.*
+import com.postcrud.component.creator.*
 import com.postcrud.component.notification.NotificationHelper
 import com.postcrud.component.notification.UserNotHereWorker
 import com.postcrud.core.utils.isFirstTimeWork

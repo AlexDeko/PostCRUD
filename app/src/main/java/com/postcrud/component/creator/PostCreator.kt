@@ -1,4 +1,4 @@
-package com.postcrud.component.factory
+package com.postcrud.component.creator
 
 import com.postcrud.feature.data.dto.PostResponseDto
 
