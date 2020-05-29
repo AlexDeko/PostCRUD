@@ -12,5 +12,4 @@ class UserNotHereWorker(val context: Context, workerParameters: WorkerParameters
         if (isShowNotifyWork(context = context)) return Result.success()
         return Result.failure()
     }
-
 }
