@@ -31,14 +31,14 @@
 
     <androidx.appcompat.widget.AppCompatImageButton
         android:id="@+id/addPhotoButton"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:layout_marginStart="28dp"
         android:layout_marginTop="400dp"
         android:backgroundTint="@color/colorNull"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_photo_black_24dp" />
+        app:srcCompat="@drawable/ic_photo_camera_96dp" />
 
     <com.google.android.material.circularreveal.CircularRevealLinearLayout
         android:layout_width="wrap_content"
