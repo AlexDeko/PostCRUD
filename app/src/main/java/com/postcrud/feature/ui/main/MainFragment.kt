@@ -37,6 +37,7 @@ import com.postcrud.component.notification.UserNotHereWorker
 import com.postcrud.core.state.UiState
 import com.postcrud.core.utils.isFirstTimeWork
 import com.postcrud.core.utils.setLastVisitTimeWork
+import com.postcrud.feature.data.model.MediaType
 import com.postcrud.feature.data.model.PostType
 import com.postcrud.feature.ui.adapters.diff_util.PostDiffUtilResult
 import io.ktor.util.KtorExperimentalAPI
@@ -323,6 +324,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         try {
             val mediaImage = media.setMediaPost(body)
             imageId = mediaImage.id
+            NotificationHelper.mediaUploaded(mediaImage,requireContext())
         } catch (e: Exception) {
             networkError(e)
         }
