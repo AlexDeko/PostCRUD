@@ -69,7 +69,7 @@ class PostViewHolder(adapter: PostRecyclerAdapter, view: View) :
             if (post.imageId != null) {
                 imagePost.visibility = View.VISIBLE
                 Glide.with(context)
-                    .load("https://server-post.herokuapp.com/api/v1/media/${post.imageId}")
+                    .load("https://server-post.herokuapp.com/api/v1/static/${post.imageId}")
                     .centerCrop()
                     .placeholder(R.drawable.ic_photo_black_96dp)
                     .into(imagePost)

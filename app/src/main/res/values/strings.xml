@@ -28,4 +28,6 @@
     <string name="send">Отправить</string>
     <string name="cancel">Отмена</string>
     <string name="no_network_error">Нет интернет соединения</string>
+    <string name="not_found">Ничего не найдено</string>
+    <string name="error">Ошибка</string>
 </resources>

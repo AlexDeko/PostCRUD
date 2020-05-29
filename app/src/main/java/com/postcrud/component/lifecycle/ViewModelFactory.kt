@@ -2,9 +2,8 @@ package com.postcrud.component.lifecycle
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import javax.inject.Inject
 
-class ViewModelFactory @Inject constructor(
+class ViewModelFactory constructor(
     private val providers: ViewModelProviders
 ) : ViewModelProvider.Factory {
 

@@ -4,11 +4,14 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.provider.MediaStore
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.work.ExistingPeriodicWorkPolicy
@@ -27,8 +30,11 @@ import com.postcrud.feature.ui.adapters.PostRecyclerAdapter
 import com.postcrud.feature.data.dto.PostResponseDto
 import com.postcrud.feature.data.dto.user.UserResponseDto
 import com.postcrud.component.creator.*
+import com.postcrud.component.lifecycle.ViewModelProviders
+import com.postcrud.component.lifecycle.viewModels
 import com.postcrud.component.notification.NotificationHelper
 import com.postcrud.component.notification.UserNotHereWorker
+import com.postcrud.core.state.UiState
 import com.postcrud.core.utils.isFirstTimeWork
 import com.postcrud.core.utils.setLastVisitTimeWork
 import com.postcrud.feature.data.model.PostType
@@ -46,6 +52,11 @@ import java.util.concurrent.TimeUnit
 
 @KtorExperimentalAPI
 class MainFragment : Fragment(R.layout.fragment_main) {
+
+
+    lateinit var providers: ViewModelProviders
+    private val viewModel: MainViewModel by viewModels { providers }
+
     private val posts: PostsApi = get()
     private val users: ProfileApi = get()
     private val media: MediaApi = get()
@@ -62,6 +73,48 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         setList()
         getUserProfile()
         setSwipeRefresh()
+
+
+//
+//        viewModel.uiModel.observe(viewLifecycleOwner) { state ->
+//            when (state) {
+//                UiState.Empty -> {
+//                    postsList.clear()
+//                    notifyDataChangeAdapter()
+//                }
+//                UiState.NotFound -> {
+//                    changeProgressState(true)
+//                    toast(getString(R.string.not_found))
+//                    changeProgressState(false)
+//                }
+//                is UiState.Data -> {
+//
+//                }
+//                is UiState.Error -> {
+//
+//                }
+//                UiState.EmptyProgress -> {
+//
+//                }
+//                is UiState.Refreshing.Data -> {
+//                    changeProgressState(false)
+//                }
+//                UiState.Refreshing.Empty -> {
+//                    changeProgressState(true)
+//                    setEmptyListForRecycler()
+//                }
+//                is UiState.Refreshing.Error -> {
+//                    changeProgressState(false)
+//                    toast(getString(R.string.error))
+//                    setEmptyListForRecycler()
+//                }
+//            }
+//        }
+    }
+
+    private fun setEmptyListForRecycler() {
+        postsList.clear()
+        notifyDataChangeAdapter()
     }
 
     private fun setSwipeRefresh() {
@@ -76,7 +129,8 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     private fun notifyDataChangeAdapter() {
         PostDiffUtilResult().getDIffUtilResult(
             recyclerAdapter = recyclerListPosts.adapter as PostRecyclerAdapter,
-            baseListNote = postsList.asReversed())
+            baseListNote = postsList.asReversed()
+        )
     }
 
     private fun setList() {
@@ -283,18 +337,20 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             ).build()
 
         WorkManager.getInstance(requireContext())
-            .enqueueUniquePeriodicWork("user_present_work",
-                ExistingPeriodicWorkPolicy.KEEP, checkWork)
+            .enqueueUniquePeriodicWork(
+                "user_present_work",
+                ExistingPeriodicWorkPolicy.KEEP, checkWork
+            )
     }
 
     override fun onDestroy() {
+        super.onDestroy()
         if (isFirstTimeWork(requireContext())) {
             NotificationHelper.comeBackNotification(requireContext())
             setLastVisitTimeWork(requireContext(), System.currentTimeMillis())
-        }else{
+        } else {
             setLastVisitTimeWork(requireContext(), System.currentTimeMillis())
         }
-        super.onDestroy()
     }
 
 
