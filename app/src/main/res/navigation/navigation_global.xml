@@ -7,14 +7,26 @@
 
     <fragment
         android:id="@+id/mainFragment"
-        android:name="com.postcrud.feature.ui.main.MainFragment"
+        android:name="com.postcrud.feature.ui.fragments.main.MainFragment"
         android:label="MainFragment" >
+
+        <action
+            android:id="@+id/action_mainFragment_to_postFragment"
+            app:destination="@id/postFragment"
+            app:popUpTo="@id/mainFragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/postFragment"
+        android:name="com.postcrud.feature.ui.fragments.post.PostFragment"
+        android:label="PostFragment">
 
     </fragment>
 
     <fragment
         android:id="@+id/authFragment"
-        android:name="com.postcrud.feature.ui.auth.AuthFragment"
+        android:name="com.postcrud.feature.ui.fragments.auth.AuthFragment"
         android:label="MainFragment" >
 
         <action
@@ -30,7 +42,7 @@
 
     <fragment
         android:id="@+id/registFragment"
-        android:name="com.postcrud.feature.ui.regist.RegistFragment"
+        android:name="com.postcrud.feature.ui.fragments.regist.RegistFragment"
         android:label="MainFragment" >
 
         <action
@@ -42,7 +54,7 @@
 
     <fragment
         android:id="@+id/splashFragment"
-        android:name="com.postcrud.feature.ui.splash.SplashFragment"
+        android:name="com.postcrud.feature.ui.fragments.splash.SplashFragment"
         android:label="MainFragment" >
 
         <action

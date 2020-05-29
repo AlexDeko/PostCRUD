@@ -1,17 +1,14 @@
-package com.postcrud.feature.ui.main
+package com.postcrud.feature.ui.fragments.main
 
 import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.provider.MediaStore
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.work.ExistingPeriodicWorkPolicy
@@ -34,10 +31,8 @@ import com.postcrud.component.lifecycle.ViewModelProviders
 import com.postcrud.component.lifecycle.viewModels
 import com.postcrud.component.notification.NotificationHelper
 import com.postcrud.component.notification.UserNotHereWorker
-import com.postcrud.core.state.UiState
 import com.postcrud.core.utils.isFirstTimeWork
 import com.postcrud.core.utils.setLastVisitTimeWork
-import com.postcrud.feature.data.model.MediaType
 import com.postcrud.feature.data.model.PostType
 import com.postcrud.feature.ui.adapters.diff_util.PostDiffUtilResult
 import io.ktor.util.KtorExperimentalAPI
@@ -74,6 +69,8 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         setList()
         getUserProfile()
         setSwipeRefresh()
+
+        var int: Int = 2
 
 
 //

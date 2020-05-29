@@ -1,4 +1,4 @@
-package com.postcrud.feature.ui.auth
+package com.postcrud.feature.ui.fragments.auth
 
 import android.content.SharedPreferences
 import android.os.Bundle

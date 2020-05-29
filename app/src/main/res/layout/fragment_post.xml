@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".feature.ui.fragments.post.PostFragment"
+    android:background="@color/colorBackground">
+
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/appCompatImageButton"
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        android:layout_gravity="start"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="56dp"
+        android:backgroundTint="@color/colorNull"
+        android:src="@drawable/ic_photo_camera_96dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/errorNoNetwork"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
+        android:gravity="center"
+        android:text="@string/no_network_error"
+        android:textAllCaps="true"
+        android:textColor="@color/colorErrorNoNetwork"
+        android:textSize="22sp"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/dateItem"
+        style="@style/TextAppearance.MaterialComponents.Body2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:layout_marginTop="44dp"
+        android:maxEms="10"
+        android:text="22.03.2020"
+        android:textColor="#999999"
+        android:textSize="10sp"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.165"
+        app:layout_constraintStart_toEndOf="@+id/appCompatImageButton"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/titleItem"
+        style="@style/TextAppearance.MaterialComponents.Headline6"
+        android:layout_width="@dimen/title_card"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="Красивые люди"
+        android:textColor="@color/colorBlack"
+        android:textSize="14sp"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/appCompatImageButton"
+        app:layout_constraintTop_toBottomOf="@+id/dateItem" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/textItem"
+        style="@style/TextAppearance.MaterialComponents.Headline6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="52dp"
+        android:ellipsize="end"
+        android:maxLines="9"
+        android:text="Мы скромные."
+        android:textColor="@color/colorBlack"
+        android:textSize="18sp"
+        android:visibility="visible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appCompatImageButton" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/imagePost"
+        android:layout_width="0dp"
+        android:layout_height="400dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="24dp"
+        android:adjustViewBounds="true"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@+id/imageButtonRepost"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textItem"
+        app:layout_constraintVertical_bias="0.0"
+        tools:srcCompat="@drawable/ic_photo_black_96dp" />
+
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/imageButtonLike"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="412dp"
+        android:backgroundTint="@color/colorNull"
+        android:src="@drawable/ic_favorite_border_24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/countLikes"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textItem"
+        app:layout_constraintVertical_bias="0.3" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/countLikes"
+        style="@style/TextAppearance.MaterialComponents.Overline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="412dp"
+        android:padding="8dp"
+        android:text="@string/count"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/imageButtonComment"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/imageButtonLike"
+        app:layout_constraintTop_toBottomOf="@+id/textItem"
+        app:layout_constraintVertical_bias="0.3" />
+
+
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/imageButtonComment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="412dp"
+        android:backgroundTint="@color/colorNull"
+        android:src="@drawable/ic_comment_24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/countComments"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/countLikes"
+        app:layout_constraintTop_toBottomOf="@+id/textItem"
+        app:layout_constraintVertical_bias="0.3" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/countComments"
+        style="@style/TextAppearance.MaterialComponents.Overline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="412dp"
+        android:padding="8dp"
+        android:text="@string/countComment"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/imageButtonRepost"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/imageButtonComment"
+        app:layout_constraintTop_toBottomOf="@+id/textItem"
+        app:layout_constraintVertical_bias="0.3" />
+
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/imageButtonRepost"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="412dp"
+        android:backgroundTint="@color/colorNull"
+        android:src="@drawable/ic_reply_24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/countReply"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/countComments"
+        app:layout_constraintTop_toBottomOf="@+id/textItem"
+        app:layout_constraintVertical_bias="0.3" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/countReply"
+        style="@style/TextAppearance.MaterialComponents.Overline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="412dp"
+        android:padding="8dp"
+        android:text="@string/countReply"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/imageButtonLocation"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/imageButtonRepost"
+        app:layout_constraintTop_toBottomOf="@+id/textItem"
+        app:layout_constraintVertical_bias="0.3" />
+
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/imageButtonLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="412dp"
+        android:backgroundTint="@color/colorNull"
+        android:src="@drawable/ic_location_on_blue_24dp"
+        app:iconTint="@color/colorPrimaryDark"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@id/countReply"
+        app:layout_constraintTop_toBottomOf="@+id/textItem"
+        app:layout_constraintVertical_bias="0.3" />
+
+
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/imageVisible"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="412dp"
+        android:backgroundTint="@color/colorNull"
+        android:src="@drawable/ic_visibility_blue_24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/countVisible"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/imageButtonLocation"
+        app:layout_constraintTop_toBottomOf="@+id/textItem"
+        app:layout_constraintVertical_bias="0.3" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/countVisible"
+        style="@style/TextAppearance.MaterialComponents.Overline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="412dp"
+        android:padding="8dp"
+        android:text="@string/countReply"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/imageVisible"
+        app:layout_constraintTop_toBottomOf="@+id/textItem"
+        app:layout_constraintVertical_bias="0.3" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

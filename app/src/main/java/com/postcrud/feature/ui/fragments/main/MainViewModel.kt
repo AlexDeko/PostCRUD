@@ -1,4 +1,4 @@
-package com.postcrud.feature.ui.main
+package com.postcrud.feature.ui.fragments.main
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

@@ -1,4 +1,4 @@
-package com.postcrud.feature.ui.regist
+package com.postcrud.feature.ui.fragments.regist
 
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -17,9 +17,7 @@ import com.postcrud.core.utils.toast
 import com.postcrud.feature.data.dto.AuthenticationRequestDto
 import com.postcrud.feature.data.dto.AuthenticationResponseDto
 import kotlinx.android.synthetic.main.fragment_regist.*
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import org.koin.android.ext.android.get
 import java.lang.Exception
 
