@@ -13,6 +13,6 @@ class UserNotHereWorker(val context: Context, workerParameters: WorkerParameters
             NotificationHelper.comeBackNotification(context)
             return Result.success()
         }
-        return Result.failure()
+        return Result.retry()
     }
 }

@@ -35,6 +35,8 @@ object NotificationHelper {
     }
 
     fun comeBackNotification(context: Context) {
+        createNotificationChannelIfNotCreated(context)
+
         val builder = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             createBuilder(
                 context,

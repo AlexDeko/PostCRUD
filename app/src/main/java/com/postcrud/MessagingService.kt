@@ -20,7 +20,9 @@ class MessagingService : FirebaseMessagingService() {
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         val map = remoteMessage.data
         val builder: NotificationCompat.Builder
+
         builder = if (map["Type"] == "changedTimetable") {
+
             NotificationCompat.Builder(this, "Post")
                 .setSmallIcon(R.drawable.ic_question_answer_blue_24dp)
                 .setContentTitle("Новый пост!")
@@ -33,6 +35,7 @@ class MessagingService : FirebaseMessagingService() {
                 RemoteViews(packageName, R.layout.item_notification)
             val notificationLayoutExpanded =
                 RemoteViews(packageName, R.layout.item_notification)
+
             NotificationCompat.Builder(this, "Post")
                 .setSmallIcon(R.drawable.ic_question_answer_blue_24dp)
                 .setStyle(NotificationCompat.DecoratedCustomViewStyle())

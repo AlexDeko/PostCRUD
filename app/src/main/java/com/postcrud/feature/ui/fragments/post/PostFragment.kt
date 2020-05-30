@@ -9,5 +9,6 @@ class PostFragment : Fragment(R.layout.fragment_post) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
+
     }
 }
