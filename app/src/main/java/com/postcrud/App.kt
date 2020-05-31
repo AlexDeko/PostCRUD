@@ -80,6 +80,7 @@ val sharedPreferencesModule = module {
 }
 
 const val PREFS_TOKEN = "token"
+const val PREFS_TOKEN_FIREBASE = "token_firebase"
 const val PAGE_SIZE = 20
 const val API_SHARED_FILE = "API_shared_file"
 const val FIRST_TIME_SHARED_KEY = "first_time_shared_key"

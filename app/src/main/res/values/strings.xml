@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">CardPostPart2</string>
+    <string name="app_name">Friendly community</string>
     <string name="count">0</string>
     <string name="countComment">478</string>
     <string name="countReply">100</string>
@@ -9,7 +9,11 @@
     <string name="request_internet_false">Данные с сети не получены</string>
     <string name="email">Email</string>
     <string name="password">Пароль</string>
-    <string name="message_post_like">Ваш великолепный пост кому-то понравился</string>
+    <string name="message_post_like">Ваш великолепный пост кому-то понравился.</string>
+    <string name="big_message_post_like">
+        Ваш великолепный пост кому-то понравился. \n\n
+        Посмотри кто тобой интересуются.\n
+        Возможно это твоя судьба.</string>
     <string name="singUp">Регистрация</string>
     <string name="signIn">Вход</string>
     <string name="toast_againOnBackPressed">Нажмите ещё раз, чтобы выйти.</string>
@@ -30,4 +34,5 @@
     <string name="no_network_error">Нет интернет соединения</string>
     <string name="not_found">Ничего не найдено</string>
     <string name="error">Ошибка</string>
+    <string name="google_play_unavailable">На устройстве не установлены сервесы Google</string>
 </resources>

@@ -18,11 +18,14 @@ interface PostsApi {
     suspend fun getPostsById(@Path("id") id: Long): PostResponseDto
 
 
-    @POST("posts")
-    suspend fun createOrUpdatePost(@Body postResponseDto: PostResponseDto): PostResponseDto
+    @POST("posts/save")
+    suspend fun createPost(@Body postResponseDto: PostResponseDto, @Body tokenFireBase: String): PostResponseDto
+
+    @POST("posts/update")
+    suspend fun updatePost(@Body postResponseDto: PostResponseDto): PostResponseDto
 
     @POST("posts/{id}/likes")
-    suspend fun setLikePost(@Path("id") id: Long): PostResponseDto
+    suspend fun setLikePost(@Path("id") id: Long, @Body tokenFireBase: String): PostResponseDto
 
     @POST("posts/{id}/likes")
     suspend fun setDislikePost(@Path("id") id: Long): PostResponseDto

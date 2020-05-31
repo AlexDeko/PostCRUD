@@ -1,6 +1,7 @@
 package com.postcrud.feature.ui.fragments.main
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.provider.MediaStore
@@ -9,20 +10,21 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
-import com.postcrud.PAGE_SIZE
+import com.google.android.gms.common.ConnectionResult
+import com.google.android.gms.common.GoogleApiAvailability
+import com.google.firebase.iid.FirebaseInstanceId
+import com.postcrud.*
 
-import com.postcrud.R
-import com.postcrud.SHOW_NOTIFICATION_AFTER_UNVISITED_MS
 import com.postcrud.component.network.isNetworkConnect
 import com.postcrud.core.api.MediaApi
 import com.postcrud.core.api.PostsApi
 import com.postcrud.core.api.ProfileApi
-import com.postcrud.core.utils.toast
 import com.postcrud.feature.ui.adapters.PostRecyclerAdapter
 import com.postcrud.feature.data.dto.PostResponseDto
 import com.postcrud.feature.data.dto.user.UserResponseDto
@@ -31,8 +33,8 @@ import com.postcrud.component.lifecycle.ViewModelProviders
 import com.postcrud.component.lifecycle.viewModels
 import com.postcrud.component.notification.NotificationHelper
 import com.postcrud.component.notification.UserNotHereWorker
-import com.postcrud.core.utils.isFirstTimeWork
-import com.postcrud.core.utils.setLastVisitTimeWork
+import com.postcrud.core.state.UiState
+import com.postcrud.core.utils.*
 import com.postcrud.feature.data.model.PostType
 import com.postcrud.feature.ui.adapters.diff_util.PostDiffUtilResult
 import io.ktor.util.KtorExperimentalAPI
@@ -62,58 +64,51 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     private val REQUEST_IMAGE_CAPTURE = 1
     private var imageBitmap: Bitmap? = null
     private var imageId: String? = null
+    private lateinit var sharedPreferences: SharedPreferences
+    private var tokenFirebase = ""
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        requestToken()
         scheduleJob()
         loadLastPage()
         setList()
         getUserProfile()
         setSwipeRefresh()
 
-        var int: Int = 2
-
-
-//
-//        viewModel.uiModel.observe(viewLifecycleOwner) { state ->
-//            when (state) {
-//                UiState.Empty -> {
-//                    postsList.clear()
-//                    notifyDataChangeAdapter()
-//                }
-//                UiState.NotFound -> {
-//                    changeProgressState(true)
-//                    toast(getString(R.string.not_found))
-//                    changeProgressState(false)
-//                }
-//                is UiState.Data -> {
-//
-//                }
-//                is UiState.Error -> {
-//
-//                }
-//                UiState.EmptyProgress -> {
-//
-//                }
-//                is UiState.Refreshing.Data -> {
-//                    changeProgressState(false)
-//                }
-//                UiState.Refreshing.Empty -> {
-//                    changeProgressState(true)
-//                    setEmptyListForRecycler()
-//                }
-//                is UiState.Refreshing.Error -> {
-//                    changeProgressState(false)
-//                    toast(getString(R.string.error))
-//                    setEmptyListForRecycler()
-//                }
-//            }
-//        }
     }
 
     private fun setEmptyListForRecycler() {
         postsList.clear()
         notifyDataChangeAdapter()
     }
+
+    private fun requestToken() {
+        with(GoogleApiAvailability.getInstance()) {
+            val code = isGooglePlayServicesAvailable(requireContext())
+            if (code == ConnectionResult.SUCCESS) {
+                // Get new Instance ID token
+                FirebaseInstanceId.getInstance().instanceId.addOnSuccessListener {
+                    viewLifecycleOwner.lifecycleScope.launch {
+                        tokenFirebase = it.token
+                        sharedPreferences.putString(PREFS_TOKEN_FIREBASE, it.token)
+                        toast(it.token)
+                    }
+                }
+                return@with
+            }
+
+
+
+            if (isUserResolvableError(code)) {
+                getErrorDialog(activity, code, 9000).show()
+                return
+            }
+
+            snack(getString(R.string.google_play_unavailable))
+            return
+        }
+    }
+
 
     private fun setSwipeRefresh() {
         swipeRefresh.setOnRefreshListener {
@@ -165,7 +160,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
     private fun pushLike(id: Long) = viewLifecycleOwner.lifecycleScope.launch {
         try {
-            posts.setLikePost(id)
+            posts.setLikePost(id, sharedPreferences.getString(PREFS_TOKEN_FIREBASE).orEmpty())
         } catch (e: Exception) {
             networkError(e)
         }
@@ -288,7 +283,11 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     private fun createPost(postResponseDto: PostResponseDto) =
         viewLifecycleOwner.lifecycleScope.launch {
             try {
-                val post = posts.createOrUpdatePost(postResponseDto)
+                val post = posts.createPost(
+                    postResponseDto, sharedPreferences.getString(
+                        PREFS_TOKEN_FIREBASE
+                    ).orEmpty()
+                )
                 onCreatePostSuccess(post)
             } catch (e: Exception) {
                 networkError(e)
@@ -321,7 +320,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         try {
             val mediaImage = media.setMediaPost(body)
             imageId = mediaImage.id
-            NotificationHelper.mediaUploaded(mediaImage,requireContext())
+            NotificationHelper.mediaUploaded(mediaImage, requireContext())
         } catch (e: Exception) {
             networkError(e)
         }

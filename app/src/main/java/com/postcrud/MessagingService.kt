@@ -7,12 +7,16 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import android.os.Bundle
 import android.widget.RemoteViews
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.navigation.Navigation
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import com.postcrud.feature.ui.MainActivity
+import org.koin.android.ext.android.get
 
 class MessagingService : FirebaseMessagingService() {
 
@@ -21,29 +25,36 @@ class MessagingService : FirebaseMessagingService() {
         val map = remoteMessage.data
         val builder: NotificationCompat.Builder
 
-        builder = if (map["Type"] == "changedTimetable") {
+        builder = if (map["title"] == "NewPost") {
 
             NotificationCompat.Builder(this, "Post")
                 .setSmallIcon(R.drawable.ic_question_answer_blue_24dp)
                 .setContentTitle("Новый пост!")
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+
         } else {
-            val cancel = Intent("com.postcrud.cancel")
-            val cancelIntent =
-                PendingIntent.getBroadcast(this, 0, cancel, PendingIntent.FLAG_CANCEL_CURRENT)
+            val args = Bundle()
+            args.putLong("idPost", 0)
+
+            val deeplink = Navigation.findNavController(MainActivity(), R.id.host_global)
+                .createDeepLink()
+                .setDestination(R.id.action_mainFragment_to_postFragment)
+                .setArguments(args)
+                .createPendingIntent()
+
             val notificationLayout =
                 RemoteViews(packageName, R.layout.item_notification)
             val notificationLayoutExpanded =
                 RemoteViews(packageName, R.layout.item_notification)
 
-            NotificationCompat.Builder(this, "Post")
+            NotificationCompat.Builder(this, "NewLike")
                 .setSmallIcon(R.drawable.ic_question_answer_blue_24dp)
                 .setStyle(NotificationCompat.DecoratedCustomViewStyle())
                 .setCustomContentView(notificationLayout)
                 .setCustomBigContentView(notificationLayoutExpanded)
                 .setContentTitle("Ваш пост лайкнули")
                 .setAutoCancel(true)
-                .setContentIntent(cancelIntent)
+                .setContentIntent(deeplink)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

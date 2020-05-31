@@ -9,6 +9,6 @@
         android:layout_marginHorizontal="16dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/message_post_like" />
+        android:text="@string/big_message_post_like" />
 
 </com.google.android.material.circularreveal.CircularRevealLinearLayout>

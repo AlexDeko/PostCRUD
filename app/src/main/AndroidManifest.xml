@@ -19,6 +19,7 @@
         tools:targetApi="n">
 
         <activity android:name="com.postcrud.feature.ui.MainActivity">
+            <nav-graph android:value="@navigation/navigation_global"/>
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -26,7 +27,8 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".MessagingService">
+        <service android:name=".MessagingService"
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
