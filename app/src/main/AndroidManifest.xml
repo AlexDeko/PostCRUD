@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.postcrud">
+    package="com.tribune">
 
     <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
     <uses-permission android:name="com.android.alarm.permission.DISMISS_ALARM" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:name=".App"
+        android:name="com.tribune.App"
         android:allowBackup="false"
         android:icon="@drawable/ic_question_answer_blue_24dp"
         android:label="@string/app_name"
@@ -18,7 +18,7 @@
         android:theme="@style/AppTheme"
         tools:targetApi="n">
 
-        <activity android:name="com.postcrud.feature.ui.MainActivity">
+        <activity android:name="com.tribune.feature.ui.MainActivity">
             <nav-graph android:value="@navigation/navigation_global"/>
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,7 +27,7 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".MessagingService"
+        <service android:name="com.tribune.MessagingService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />

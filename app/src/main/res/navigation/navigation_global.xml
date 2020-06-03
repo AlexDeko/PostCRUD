@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/mainFragment"
-        android:name="com.postcrud.feature.ui.fragments.main.MainFragment"
+        android:name="com.tribune.feature.ui.fragments.main.MainFragment"
         android:label="MainFragment" >
 
         <action
@@ -19,14 +19,14 @@
 
     <fragment
         android:id="@+id/postFragment"
-        android:name="com.postcrud.feature.ui.fragments.post.PostFragment"
+        android:name="com.tribune.feature.ui.fragments.post.PostFragment"
         android:label="PostFragment">
 
     </fragment>
 
     <fragment
         android:id="@+id/authFragment"
-        android:name="com.postcrud.feature.ui.fragments.auth.AuthFragment"
+        android:name="com.tribune.feature.ui.fragments.auth.AuthFragment"
         android:label="MainFragment" >
 
         <action
@@ -42,7 +42,7 @@
 
     <fragment
         android:id="@+id/registFragment"
-        android:name="com.postcrud.feature.ui.fragments.regist.RegistFragment"
+        android:name="com.tribune.feature.ui.fragments.regist.RegistFragment"
         android:label="MainFragment" >
 
         <action
@@ -54,7 +54,7 @@
 
     <fragment
         android:id="@+id/splashFragment"
-        android:name="com.postcrud.feature.ui.fragments.splash.SplashFragment"
+        android:name="com.tribune.feature.ui.fragments.splash.SplashFragment"
         android:label="MainFragment" >
 
         <action
