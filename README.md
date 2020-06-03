@@ -1,4 +1,4 @@
-# Post CRUD
+# Tribune
 
 
 [Ссылка на сервер приложения](https://github.com/AlexDeko/server  "Server")
