@@ -1,12 +1,7 @@
 package com.tribune.feature.ui.fragments.main
 
-import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
-import android.provider.MediaStore
 import android.view.View
-import androidx.appcompat.app.AlertDialog
-import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.observe
@@ -24,20 +19,16 @@ import com.tribune.component.network.isNetworkConnect
 import com.tribune.core.api.PostsApi
 import com.tribune.core.api.ProfileApi
 import com.tribune.feature.ui.adapters.PostRecyclerAdapter
-import com.tribune.feature.data.dto.PostResponseDto
-import com.tribune.feature.data.dto.user.UserResponseDto
-import com.tribune.component.creator.*
 import com.tribune.component.notification.NotificationHelper
 import com.tribune.component.notification.UserNotHereWorker
 import com.tribune.core.state.UiState
 import com.tribune.core.utils.*
-import com.tribune.feature.data.dto.PostResponseDto.Companion.toDto
 import com.tribune.feature.data.dto.PostResponseDto.Companion.toModel
 import com.tribune.feature.data.model.PostModel
 import com.tribune.feature.data.model.PostType
 import com.tribune.feature.ui.adapters.diff_util.PostDiffUtilResult
+import com.tribune.feature.ui.fragments.dialog.DialogCreatePostFragments
 import io.ktor.util.KtorExperimentalAPI
-import kotlinx.android.synthetic.main.dialog_create_post.*
 import kotlinx.android.synthetic.main.fragment_main.*
 import kotlinx.coroutines.*
 import org.koin.android.ext.android.get
@@ -248,7 +239,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
     private fun setFloatActionButton() {
         createNewPostButton.setOnClickListener {
-            DialogFragment().show(parentFragmentManager, this.tag)
+            DialogCreatePostFragments().show(parentFragmentManager, this.tag)
             val postId = arguments?.getLong(ARG_POST_ID)
             if (postId != null) {
                 addPostInList(id = postId)

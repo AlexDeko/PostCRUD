@@ -31,7 +31,7 @@ import okhttp3.RequestBody
 import org.koin.android.ext.android.get
 import java.io.ByteArrayOutputStream
 
-class DialogFragments : DialogFragment() {
+class DialogCreatePostFragments : DialogFragment() {
 
     private val REQUEST_IMAGE_CAPTURE = 1
     private var imageBitmap: Bitmap? = null
