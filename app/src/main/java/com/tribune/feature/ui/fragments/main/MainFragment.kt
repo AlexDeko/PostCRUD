@@ -47,19 +47,11 @@ import java.util.concurrent.TimeUnit
 class MainFragment : Fragment(R.layout.fragment_main) {
 
     private val viewModel: MainViewModel = MainViewModel()
-
     private val posts: PostsApi = get()
     private val users: ProfileApi = get()
-
-    // private val media: MediaApi = get()
     private val postsList: MutableList<PostModel> =
         emptyArray<PostModel>().toMutableList()
     private var pageId: Long = 0
-
-    //private val REQUEST_IMAGE_CAPTURE = 1
-    //   private var imageBitmap: Bitmap? = null
-    //private var imageId: String? = null
-    //  private lateinit var sharedPreferences: SharedPreferences
     private var tokenFirebase = ""
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -67,7 +59,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         scheduleJob()
         loadLastPage()
         setList()
-        getUserProfile()
+        setFloatActionButton()
         setSwipeRefresh()
 
 
@@ -118,11 +110,8 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             val code = isGooglePlayServicesAvailable(requireContext())
             if (code == ConnectionResult.SUCCESS) {
                 FirebaseInstanceId.getInstance().instanceId.addOnSuccessListener {
-                    // viewLifecycleOwner.lifecycleScope.launch {
                     tokenFirebase = it.token
-                    //sharedPreferences.putString(PREFS_TOKEN_FIREBASE, it.token)
                     arguments?.putString(ARG_TOKEN_FIREBASE, tokenFirebase)
-                    //}
                 }
                 return@with
             }
@@ -257,25 +246,15 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         notifyDataChangeAdapter()
     }
 
-    private fun setFloatActionButton(user: UserResponseDto) {
+    private fun setFloatActionButton() {
         createNewPostButton.setOnClickListener {
-            // showDialog {
             DialogFragment().show(parentFragmentManager, this.tag)
             val postId = arguments?.getLong(ARG_POST_ID)
             if (postId != null) {
                 addPostInList(id = postId)
             }
-
-//            val post: PostResponseDto = creteNewPost(
-//                contentText = it, author = user.username,
-//                ownerId = user.id, imageId = arguments?.getString(ARG_IMAGE_ID)
-//            )
-
-            // createPost(post.toModel())
-
-            //createPost(arguments[])
         }
-        // }
+
     }
 
     private fun addPostInList(id: Long) = viewLifecycleOwner.lifecycleScope.launch {
@@ -291,57 +270,6 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         postsList.add(post)
         notifyDataChangeAdapter()
     }
-
-//    private fun showDialog(createBtnClicked: (content: String) -> Unit) {
-//        val dialog = AlertDialog.Builder(requireContext())
-//            .setView(R.layout.dialog_create_post)
-//            .setCancelable(false)
-//            .show()
-//
-//        with(dialog) {
-//            createPostButton.setOnClickListener {
-//                createBtnClicked(textPostInput.text.toString())
-//                hide()
-//            }
-//            cancelButton.setOnClickListener {
-//                cancel()
-//            }
-//            addPhotoButton.setOnClickListener {
-//                dispatchTakePictureIntent()
-//                addPhotoButton.isEnabled = false
-//            }
-//        }
-//    }
-
-//    private fun dispatchTakePictureIntent() {
-//        Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
-//            takePictureIntent.resolveActivity(requireContext().packageManager)?.also {
-//                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
-//            }
-//        }
-//    }
-
-    private fun getUserProfile() = viewLifecycleOwner.lifecycleScope.launch {
-        try {
-            setFloatActionButton(users.getProfile())
-        } catch (e: Exception) {
-            networkError(e)
-        }
-    }
-
-
-    private fun createPost(postModel: PostModel) =
-        viewLifecycleOwner.lifecycleScope.launch {
-            try {
-                val token = arguments?.getString(ARG_TOKEN_FIREBASE).orEmpty()
-                val post = posts.createPost(
-                    postModel.toDto(), token
-                )
-                onCreatePostSuccess(post.toModel())
-            } catch (e: Exception) {
-                networkError(e)
-            }
-        }
 
     private fun onCreatePostSuccess(postModel: PostModel) {
         postsList.add(postModel)
@@ -360,21 +288,6 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         if (!isNetworkConnect(requireContext())) errorNoNetwork.visibility = View.VISIBLE
         else toast(e.localizedMessage!!)
     }
-
-//    private fun pushMediaImage(bitmap: Bitmap) = viewLifecycleOwner.lifecycleScope.launch {
-//        val bos = ByteArrayOutputStream()
-//        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos)
-//        val reqFIle = RequestBody.create("image/jpeg".toMediaTypeOrNull(), bos.toByteArray())
-//        val body = MultipartBody.Part.createFormData("file", "image.jpg", reqFIle)
-//        try {
-//            val mediaImage = media.setMediaPost(body)
-//            imageId = mediaImage.id
-//            NotificationHelper.mediaUploaded(mediaImage, requireContext())
-//        } catch (e: Exception) {
-//            networkError(e)
-//        }
-//
-//    }
 
     private fun scheduleJob() {
         val checkWork =
@@ -399,12 +312,4 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             setLastVisitTimeWork(requireContext(), System.currentTimeMillis())
         }
     }
-
-//
-//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-//        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == AppCompatActivity.RESULT_OK) {
-//            imageBitmap = data?.extras?.get("data") as Bitmap
-//            pushMediaImage(imageBitmap!!)
-//        }
-//    }
 }
