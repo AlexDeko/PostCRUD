@@ -24,11 +24,14 @@ interface PostsApi {
     @POST("posts/update")
     suspend fun updatePost(@Body postResponseDto: PostResponseDto): PostResponseDto
 
-    @POST("posts/{id}/likes")
-    suspend fun setLikePost(@Path("id") id: Long): PostResponseDto
+    @POST("posts/{id}/approves")
+    suspend fun setApprovePost(@Path("id") id: Long): PostResponseDto
 
-    @POST("posts/{id}/likes")
-    suspend fun setDislikePost(@Path("id") id: Long): PostResponseDto
+    @POST("posts/{id}/not_approves")
+    suspend fun setNotApprovePost(@Path("id") id: Long): PostResponseDto
+
+    @POST("posts/{id}/unselected_approves")
+    suspend fun setUnselectedApproves(@Path("id") id: Long): PostResponseDto
 
     @POST("posts/{id}/reposts")
     suspend fun createRepost(@Path("id") id: Long): PostResponseDto

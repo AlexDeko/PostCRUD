@@ -9,5 +9,6 @@ import com.tribune.feature.data.model.PostModel
 abstract class BaseViewHolder(val adapter: PostRecyclerAdapter, view: View) :
     RecyclerView.ViewHolder(view) {
     abstract fun bind(post: PostModel)
-    abstract fun bindLike(post: PostModel, isLikePost: Boolean, countLikePost: Long)
+    abstract fun bindApproveChange(post: PostModel)
+    abstract fun bindUnselectedApprovesButton(post: PostModel)
 }

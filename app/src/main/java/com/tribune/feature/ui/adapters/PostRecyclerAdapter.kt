@@ -1,10 +1,10 @@
 package com.tribune.feature.ui.adapters
 
-import android.graphics.Bitmap
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.tribune.R
+import com.tribune.feature.data.dto.user.UserResponseDto
 import com.tribune.feature.data.model.PostModel
 
 import com.tribune.feature.ui.adapters.holders.*
@@ -12,24 +12,21 @@ import com.tribune.feature.data.model.PostType
 
 private const val VIEW_TYPE_POST = 1
 private const val VIEW_TYPE_REPOST = 2
-private const val VIEW_TYPE_ADS = 3
-private const val VIEW_TYPE_VIDEO = 4
-private const val VIEW_TYPE_EVENT = 5
 
 fun viewTypeToPostType(viewType: Int) = when (viewType) {
     VIEW_TYPE_POST -> PostType.POST
     VIEW_TYPE_REPOST -> PostType.REPOST
-    VIEW_TYPE_ADS -> PostType.ADS
-    VIEW_TYPE_VIDEO -> PostType.VIDEO
-    VIEW_TYPE_EVENT -> PostType.EVENT
     else -> TODO("unknown view type")
 }
 
 class PostRecyclerAdapter(
     var list: MutableList<PostModel>,
-    val onLikeClicked: (PostModel) -> Unit,
-    val onDislikeClicked: (PostModel) -> Unit,
-    val onRepostClicked: (PostModel) -> Unit
+    val onApproveClicked: (PostModel) -> Unit,
+    val onNotApproveClicked: (PostModel) -> Unit,
+    val unselectedApprovesClicked: (PostModel) -> Unit,
+    val onRepostClicked: (PostModel) -> Unit,
+    val setBadge: (id: Long, isApprovedThisPost: Boolean, cancelApproved: Boolean,
+                   cancelNotApproved: Boolean) -> Unit
 ) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -39,7 +36,7 @@ class PostRecyclerAdapter(
             PostType.POST -> PostViewHolder(
                 this,
                 LayoutInflater.from(parent.context).inflate(
-                    R.layout.list_post_item,
+                    R.layout.tribune_list_post_item,
                     parent,
                     false
                 )
@@ -47,31 +44,7 @@ class PostRecyclerAdapter(
             PostType.REPOST -> RepostViewHolder(
                 this,
                 LayoutInflater.from(parent.context).inflate(
-                    R.layout.list_repost_item,
-                    parent,
-                    false
-                )
-            )
-            PostType.ADS -> AdsViewHolder(
-                this,
-                LayoutInflater.from(parent.context).inflate(
-                    R.layout.list_ads_item,
-                    parent,
-                    false
-                )
-            )
-            PostType.VIDEO -> VideoViewHolder(
-                this,
-                LayoutInflater.from(parent.context).inflate(
-                    R.layout.list_video_item,
-                    parent,
-                    false
-                )
-            )
-            PostType.EVENT -> EventViewHolder(
-                this,
-                LayoutInflater.from(parent.context).inflate(
-                    R.layout.list_event_item,
+                    R.layout.tribune_list_repost_item,
                     parent,
                     false
                 )
@@ -85,9 +58,6 @@ class PostRecyclerAdapter(
     override fun getItemViewType(position: Int) = when (list[position].type) {
         PostType.POST -> VIEW_TYPE_POST
         PostType.REPOST -> VIEW_TYPE_REPOST
-        PostType.ADS -> VIEW_TYPE_ADS
-        PostType.VIDEO -> VIEW_TYPE_VIDEO
-        PostType.EVENT -> VIEW_TYPE_EVENT
     }
 
     override fun onBindViewHolder(
@@ -100,12 +70,17 @@ class PostRecyclerAdapter(
         } else {
             for (i in payloads.indices) {
                 when (payloads[i]) {
-                    Payload.LIKE_CHANGE -> {
+                    Payload.APPROVE_CHANGE -> {
                         with(holder as BaseViewHolder) {
-                            bindLike(
-                                list[position],
-                                list[position].isLike,
-                                list[position].countLike
+                            bindApproveChange(
+                                list[position]
+                            )
+                        }
+                    }
+                    Payload.UNSELECTED_APPROVES_BUTTON -> {
+                        with(holder as BaseViewHolder) {
+                            bindUnselectedApprovesButton(
+                                list[position]
                             )
                         }
                     }
@@ -123,7 +98,8 @@ class PostRecyclerAdapter(
 }
 
 enum class Payload {
-    LIKE_CHANGE
+    APPROVE_CHANGE,
+    UNSELECTED_APPROVES_BUTTON
 }
 
 

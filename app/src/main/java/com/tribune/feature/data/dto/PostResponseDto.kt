@@ -9,20 +9,17 @@ data class PostResponseDto(
     val ownerId: Long,
     val author: String,
     val createdDate: Long,
-    var content: String = "",
-    var countLike: Long = 0,
-    var isLike: Boolean = false,
-    var countRepost: Long = 0,
+    val content: String = "",
+    val isApprove: Boolean = false,
+    val count_approve: Long = 0,
+    val isNotApprove: Boolean = false,
+    val count_not_approve: Long = 0,
+    val countRepost: Long = 0,
     val type: PostType = PostType.POST,
-    val adsUrl: String? = null,
-    var countViews: Long = 0,
+    val urlLink: String? = null,
+    val countViews: Long = 0,
     val parentId: Long? = null,
-    val imageId: String? = null,
-    val videoUrl: String? = null,
-    val countComment: Long = 0,
-    val isCanCommented: Boolean = true,
-    val selectedLocation: String? = null,
-    val firebaseId: String? = null
+    val imageId: String?= null
 ) {
 
 
@@ -34,18 +31,16 @@ data class PostResponseDto(
             author = this.author,
             createdDate = this.createdDate,
             content = this.content,
-            countLike = this.countLike,
-            isLike = this.isLike,
+            isApprove = this.isApprove,
+            count_approve = this.count_approve,
+            isNotApprove = this.isNotApprove,
+            count_not_approve = this.count_not_approve,
             countRepost = this.countRepost,
             type = this.type,
-            adsUrl = this.adsUrl,
+            urlLink = this.urlLink,
             countViews = this.countViews,
             parentId = this.parentId,
-            imageId = this.imageId,
-            videoUrl = this.videoUrl,
-            countComment = this.countComment,
-            isCanCommented = this.isCanCommented,
-            selectedLocation = this.selectedLocation
+            imageId = this.imageId
         )
 
         fun PostModel.toDto() = PostResponseDto(
@@ -54,18 +49,16 @@ data class PostResponseDto(
             author = this.author,
             createdDate = this.createdDate,
             content = this.content,
-            countLike = this.countLike,
-            isLike = this.isLike,
+            isApprove = this.isApprove,
+            count_approve = this.count_approve,
+            isNotApprove = this.isNotApprove,
+            count_not_approve = this.count_not_approve,
             countRepost = this.countRepost,
             type = this.type,
-            adsUrl = this.adsUrl,
+            urlLink = this.urlLink,
             countViews = this.countViews,
             parentId = this.parentId,
-            imageId = this.imageId,
-            videoUrl = this.videoUrl,
-            countComment = this.countComment,
-            isCanCommented = this.isCanCommented,
-            selectedLocation = this.selectedLocation
+            imageId = this.imageId
         )
 
 

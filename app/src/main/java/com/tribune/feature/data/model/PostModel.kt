@@ -10,18 +10,16 @@ data class PostModel(
     val author: String,
     val createdDate: Long,
     var content: String = "",
-    var countLike: Long = 0,
-    var isLike: Boolean = false,
-    var countRepost: Long = 0,
+    var isApprove: Boolean = false,
+    val count_approve: Long = 0,
+    var isNotApprove: Boolean = false,
+    val count_not_approve: Long = 0,
+    val countRepost: Long = 0,
     val type: PostType = PostType.POST,
-    val adsUrl: String? = null,
+    val urlLink: String? = null,
     var countViews: Long = 0,
     val parentId: Long? = null,
     val imageId: String?= null,
-    val videoUrl: String? = null,
-    val countComment: Long = 0,
-    val isCanCommented: Boolean = true,
-    val selectedLocation: String? = null,
     var repost: PostResponseDto? = null
 )
 
@@ -29,11 +27,5 @@ enum class PostType {
     @SerializedName("POST")
     POST,
     @SerializedName("REPOST")
-    REPOST,
-    @SerializedName("ADS")
-    ADS,
-    @SerializedName("VIDEO")
-    VIDEO,
-    @SerializedName("EVENT")
-    EVENT
+    REPOST
 }

@@ -139,15 +139,22 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = PostRecyclerAdapter(
                 postsList.asReversed(),
-                onLikeClicked = {
-                    pushLike(it.id)
+                onApproveClicked = {
+                    pushApprove(it.id)
                 },
-                onDislikeClicked = {
-                    pushDislike(it.id)
+                onNotApproveClicked = {
+                    pushNotApprove(it.id)
+                },
+                unselectedApprovesClicked = {
+                    pushUnselectedApproves(it.id)
                 },
                 onRepostClicked = {
                     createRepost(it.id)
+                },
+                setBadge = { id, isApprovedThisPost, cancelApproved, cancelNotApproved ->
+
                 }
+
             )
 
             val scrollListener = object : RecyclerView.OnScrollListener() {
@@ -165,18 +172,26 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         }
     }
 
-    private fun pushLike(id: Long) = viewLifecycleOwner.lifecycleScope.launch {
+    private fun pushApprove(id: Long) = viewLifecycleOwner.lifecycleScope.launch {
         try {
-            posts.setLikePost(id)
+            posts.setApprovePost(id)
         } catch (e: Exception) {
             networkError(e)
         }
     }
 
 
-    private fun pushDislike(id: Long) = viewLifecycleOwner.lifecycleScope.launch {
+    private fun pushNotApprove(id: Long) = viewLifecycleOwner.lifecycleScope.launch {
         try {
-            posts.setDislikePost(id)
+            posts.setNotApprovePost(id)
+        } catch (e: Exception) {
+            networkError(e)
+        }
+    }
+
+    private fun pushUnselectedApproves(id: Long) = viewLifecycleOwner.lifecycleScope.launch {
+        try {
+            posts.setUnselectedApproves(id)
         } catch (e: Exception) {
             networkError(e)
         }

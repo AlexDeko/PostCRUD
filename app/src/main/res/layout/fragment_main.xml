@@ -23,7 +23,7 @@
             android:dividerHeight="12dp"
             android:nestedScrollingEnabled="true"
             android:scrollbars="vertical"
-            tools:listitem="@layout/list_post_item" />
+            tools:listitem="@layout/tribune_list_post_item" />
 
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
