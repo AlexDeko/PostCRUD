@@ -19,7 +19,7 @@ interface PostsApi {
 
 
     @POST("posts/save")
-    suspend fun createPost(@Body postResponseDto: PostResponseDto, @Body tokenFireBase: String): PostResponseDto
+    suspend fun createPost(@Body postResponseDto: PostResponseDto): PostResponseDto
 
     @POST("posts/update")
     suspend fun updatePost(@Body postResponseDto: PostResponseDto): PostResponseDto

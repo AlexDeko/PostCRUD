@@ -26,16 +26,20 @@ class PostViewHolder(adapter: PostRecyclerAdapter, view: View) :
                     item.isApprove = false
                     item.count_approve.dec()
                     adapter.notifyItemChanged(adapterPosition, Payload.UNSELECTED_APPROVES_BUTTON)
-                    adapter.setBadge(item.ownerId, false,
-                        true,false)
+                    adapter.setBadge(
+                        item.ownerId, false,
+                        true, false
+                    )
                 } else {
                     adapter.onApproveClicked(adapter.list[adapterPosition])
                     item.isNotApprove = false
                     item.count_not_approve.dec()
                     item.count_approve.inc()
                     adapter.notifyItemChanged(adapterPosition, Payload.APPROVE_CHANGE)
-                    adapter.setBadge(item.ownerId, true,
-                        false,false)
+                    adapter.setBadge(
+                        item.ownerId, true,
+                        false, false
+                    )
                 }
             }
 
@@ -47,8 +51,10 @@ class PostViewHolder(adapter: PostRecyclerAdapter, view: View) :
                     item.isNotApprove = false
                     item.count_not_approve.dec()
                     adapter.notifyItemChanged(adapterPosition, Payload.UNSELECTED_APPROVES_BUTTON)
-                    adapter.setBadge(item.ownerId, false,
-                        false,true)
+                    adapter.setBadge(
+                        item.ownerId, false,
+                        false, true
+                    )
                 } else {
                     adapter.onNotApproveClicked(item)
                     item.isApprove = false
@@ -57,8 +63,10 @@ class PostViewHolder(adapter: PostRecyclerAdapter, view: View) :
                     notApproveImgBtn.setImageResource(R.drawable.ic_thumb_down_selected_24dp)
                     item.count_not_approve.inc()
                     adapter.notifyItemChanged(adapterPosition, Payload.APPROVE_CHANGE)
-                    adapter.setBadge(item.ownerId, false,
-                        false,false)
+                    adapter.setBadge(
+                        item.ownerId, false,
+                        false, false
+                    )
                 }
             }
 
@@ -73,8 +81,6 @@ class PostViewHolder(adapter: PostRecyclerAdapter, view: View) :
     }
 
 
-
-
     override fun bind(post: PostModel) {
         with(itemView) {
             textItem.text = post.content
@@ -87,12 +93,19 @@ class PostViewHolder(adapter: PostRecyclerAdapter, view: View) :
 
 
 
-            if (post.isApprove) {
-                notApproveImgBtn.setImageResource(R.drawable.ic_thumb_down_defualt_24dp)
-                approveImgBtn.setImageResource(R.drawable.ic_thumb_up_selected_24dp)
-            } else {
-                approveImgBtn.setImageResource(R.drawable.ic_thumb_up_defualt_24dp)
-                notApproveImgBtn.setImageResource(R.drawable.ic_thumb_down_selected_24dp)
+            when {
+                post.isApprove -> {
+                    notApproveImgBtn.setImageResource(R.drawable.ic_thumb_down_defualt_24dp)
+                    approveImgBtn.setImageResource(R.drawable.ic_thumb_up_selected_24dp)
+                }
+                post.isNotApprove -> {
+                    approveImgBtn.setImageResource(R.drawable.ic_thumb_up_defualt_24dp)
+                    notApproveImgBtn.setImageResource(R.drawable.ic_thumb_down_selected_24dp)
+                }
+                else -> {
+                    notApproveImgBtn.setImageResource(R.drawable.ic_thumb_down_defualt_24dp)
+                    approveImgBtn.setImageResource(R.drawable.ic_thumb_up_defualt_24dp)
+                }
             }
 
             if (post.count_approve > 100 || post.count_not_approve > 100) {
@@ -101,8 +114,9 @@ class PostViewHolder(adapter: PostRecyclerAdapter, view: View) :
                 badgeCardView.visibility = View.VISIBLE
             } else badgeCardView.visibility = View.INVISIBLE
             linkPost.visibility = if (post.urlLink.isNullOrEmpty()) View.INVISIBLE else View.VISIBLE
-            countNotApprove.visibility = if (countApprove.text == "0") View.INVISIBLE else View.VISIBLE
-            countNotApprove.visibility = if (countNotApprove.text == "0") View.INVISIBLE else View.VISIBLE
+            countApprove.visibility = if (countApprove.text == "0") View.INVISIBLE else View.VISIBLE
+            countNotApprove.visibility =
+                if (countNotApprove.text == "0") View.INVISIBLE else View.VISIBLE
             countReply.visibility = if (countReply.text == "0") View.INVISIBLE else View.VISIBLE
 
             if (post.imageId != null) {

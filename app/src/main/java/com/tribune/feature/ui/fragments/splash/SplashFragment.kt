@@ -1,7 +1,6 @@
 package com.tribune.feature.ui.fragments.splash
 
 import android.content.SharedPreferences
-import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.tribune.PREFS_TOKEN
@@ -12,8 +11,8 @@ import org.koin.android.ext.android.get
 
 class SplashFragment : Fragment() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onStart() {
+        super.onStart()
         val prefs: SharedPreferences = get()
 
         if (prefs.getString(PREFS_TOKEN) != null) {

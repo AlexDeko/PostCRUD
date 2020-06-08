@@ -48,44 +48,32 @@ class DialogCreatePostFragments : DialogFragment() {
         return AlertDialog.Builder(requireContext())
             .setView(R.layout.dialog_create_post)
             .setCancelable(false)
-            .show()
-    }
+            .show().apply {
+                createPostButton.setOnClickListener {
 
+                    activity?.lifecycleScope?.launch {
+                        val user = users.getProfile()
+                        val createPost: PostResponseDto = creteNewPost(
+                            contentText = textPostInput.text.toString(), author = user.username,
+                            ownerId = user.id, imageId = imageId
+                        )
 
-    private fun showDialog(context: Context) {
+                        val post = posts.createPost(createPost)
 
-
-        val dialog = AlertDialog.Builder(context)
-            .setView(R.layout.dialog_create_post)
-            .setCancelable(false)
-            .show()
-
-        with(dialog) {
-            createPostButton.setOnClickListener {
-                viewLifecycleOwner.lifecycleScope.launch {
-                val user = users.getProfile()
-                val createPost: PostResponseDto = creteNewPost(
-                    contentText = textPostInput.text.toString(), author = user.username,
-                    ownerId = user.id, imageId = imageId
-                )
-
-                    val post = posts.createPost(createPost, tokenFireBase = token)
-
-                    arguments = Bundle().apply {
-                        putString(ARG_IMAGE_ID, imageId)
-                        putLong(ARG_POST_ID, post.id) }
+                        arguments = Bundle().apply {
+                            putString(ARG_IMAGE_ID, imageId)
+                            putLong(ARG_POST_ID, post.id) }
+                    }
+                    hide()
                 }
-                hide()
+                cancelButton.setOnClickListener {
+                    cancel()
+                }
+                addPhotoButton.setOnClickListener {
+                    dispatchTakePictureIntent(context)
+                    addPhotoButton.isEnabled = false
+                }
             }
-            cancelButton.setOnClickListener {
-                cancel()
-            }
-            addPhotoButton.setOnClickListener {
-
-                dispatchTakePictureIntent(context)
-                addPhotoButton.isEnabled = false
-            }
-        }
     }
 
     private fun dispatchTakePictureIntent(context: Context) {
@@ -103,7 +91,7 @@ class DialogCreatePostFragments : DialogFragment() {
         }
     }
 
-    private fun pushMediaImage(bitmap: Bitmap) = viewLifecycleOwner.lifecycleScope.launch {
+    private fun pushMediaImage(bitmap: Bitmap) = activity?.lifecycleScope?.launch {
         val bos = ByteArrayOutputStream()
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos)
         val reqFIle = RequestBody.create("image/jpeg".toMediaTypeOrNull(), bos.toByteArray())

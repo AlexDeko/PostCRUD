@@ -8,6 +8,7 @@ import android.widget.RemoteViews
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.navigation.NavDeepLinkBuilder
 import androidx.navigation.Navigation
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
@@ -31,8 +32,8 @@ class MessagingService : FirebaseMessagingService() {
             val args = Bundle()
             args.putLong("idPost", 0)
 
-            val deeplink = Navigation.findNavController(MainActivity(), R.id.host_global)
-                .createDeepLink()
+            val deeplink = NavDeepLinkBuilder(this)
+                .setGraph(R.navigation.navigation_global)
                 .setDestination(R.id.action_mainFragment_to_postFragment)
                 .setArguments(args)
                 .createPendingIntent()

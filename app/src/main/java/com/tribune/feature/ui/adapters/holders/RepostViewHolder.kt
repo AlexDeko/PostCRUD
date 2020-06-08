@@ -94,12 +94,19 @@ class RepostViewHolder(adapter: PostRecyclerAdapter, view: View) : BaseViewHolde
             replyTitleItem.text = post.repost!!.author
             replyTextItem.text = post.repost!!.content
 
-            if (post.isApprove) {
-                notApproveImgBtn.setImageResource(R.drawable.ic_thumb_down_defualt_24dp)
-                approveImgBtn.setImageResource(R.drawable.ic_thumb_up_selected_24dp)
-            } else {
-                approveImgBtn.setImageResource(R.drawable.ic_thumb_up_defualt_24dp)
-                notApproveImgBtn.setImageResource(R.drawable.ic_thumb_down_selected_24dp)
+            when {
+                post.isApprove -> {
+                    notApproveImgBtn.setImageResource(R.drawable.ic_thumb_down_defualt_24dp)
+                    approveImgBtn.setImageResource(R.drawable.ic_thumb_up_selected_24dp)
+                }
+                post.isNotApprove -> {
+                    approveImgBtn.setImageResource(R.drawable.ic_thumb_up_defualt_24dp)
+                    notApproveImgBtn.setImageResource(R.drawable.ic_thumb_down_selected_24dp)
+                }
+                else -> {
+                    notApproveImgBtn.setImageResource(R.drawable.ic_thumb_down_defualt_24dp)
+                    approveImgBtn.setImageResource(R.drawable.ic_thumb_up_defualt_24dp)
+                }
             }
 
             if (post.count_approve > 100 || post.count_not_approve > 100) {
@@ -108,7 +115,7 @@ class RepostViewHolder(adapter: PostRecyclerAdapter, view: View) : BaseViewHolde
                 badgeCardView.visibility = View.VISIBLE
             }
             linkPost.visibility = if (post.urlLink.isNullOrEmpty()) View.INVISIBLE else View.VISIBLE
-            countNotApprove.visibility =
+            countApprove.visibility =
                 if (countApprove.text == "0") View.INVISIBLE else View.VISIBLE
             countNotApprove.visibility =
                 if (countNotApprove.text == "0") View.INVISIBLE else View.VISIBLE

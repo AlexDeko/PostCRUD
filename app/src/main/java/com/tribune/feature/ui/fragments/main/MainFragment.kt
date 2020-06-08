@@ -103,6 +103,8 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                 FirebaseInstanceId.getInstance().instanceId.addOnSuccessListener {
                     tokenFirebase = it.token
                     arguments?.putString(ARG_TOKEN_FIREBASE, tokenFirebase)
+                    pushTokenFCMForUser()
+
                 }
                 return@with
             }
@@ -114,6 +116,15 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
             snack(getString(R.string.google_play_unavailable))
             return
+        }
+    }
+
+    private fun pushTokenFCMForUser() = viewLifecycleOwner.lifecycleScope.launch {
+        try {
+            val user = users.getProfile()
+            users.updateUser(user.copy(firebaseId = tokenFirebase))
+        } catch (e: Exception) {
+            networkError(e)
         }
     }
 
