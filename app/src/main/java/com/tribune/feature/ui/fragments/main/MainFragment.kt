@@ -161,9 +161,6 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                 },
                 onRepostClicked = {
                     createRepost(it.id)
-                },
-                setBadge = { id, isApprovedThisPost, cancelApproved, cancelNotApproved ->
-
                 }
 
             )
@@ -189,6 +186,11 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         } catch (e: Exception) {
             networkError(e)
         }
+    }
+
+    private fun pushUserUpdateCountApproveInc() = viewLifecycleOwner.lifecycleScope.launch {
+        val me = users.getProfile()
+        users.updateUser(me.copy(approve = me.approve.inc() ))
     }
 
 

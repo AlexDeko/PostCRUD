@@ -24,9 +24,7 @@ class PostRecyclerAdapter(
     val onApproveClicked: (PostModel) -> Unit,
     val onNotApproveClicked: (PostModel) -> Unit,
     val unselectedApprovesClicked: (PostModel) -> Unit,
-    val onRepostClicked: (PostModel) -> Unit,
-    val setBadge: (id: Long, isApprovedThisPost: Boolean, cancelApproved: Boolean,
-                   cancelNotApproved: Boolean) -> Unit
+    val onRepostClicked: (PostModel) -> Unit
 ) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 

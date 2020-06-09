@@ -25,20 +25,14 @@ class RepostViewHolder(adapter: PostRecyclerAdapter, view: View) : BaseViewHolde
                     item.isApprove = false
                     item.count_approve.dec()
                     adapter.notifyItemChanged(adapterPosition, Payload.UNSELECTED_APPROVES_BUTTON)
-                    adapter.setBadge(
-                        item.ownerId, false,
-                        true, false
-                    )
+
                 } else {
                     adapter.onApproveClicked(adapter.list[adapterPosition])
                     item.isNotApprove = false
                     item.count_not_approve.dec()
                     item.count_approve.inc()
                     adapter.notifyItemChanged(adapterPosition, Payload.APPROVE_CHANGE)
-                    adapter.setBadge(
-                        item.ownerId, true,
-                        false, false
-                    )
+
                 }
             }
 
@@ -50,10 +44,7 @@ class RepostViewHolder(adapter: PostRecyclerAdapter, view: View) : BaseViewHolde
                     item.isNotApprove = false
                     item.count_not_approve.dec()
                     adapter.notifyItemChanged(adapterPosition, Payload.UNSELECTED_APPROVES_BUTTON)
-                    adapter.setBadge(
-                        item.ownerId, false,
-                        false, true
-                    )
+
                 } else {
                     adapter.onApproveClicked(adapter.list[adapterPosition])
                     item.isApprove = false
@@ -62,10 +53,7 @@ class RepostViewHolder(adapter: PostRecyclerAdapter, view: View) : BaseViewHolde
                     notApproveImgBtn.setImageResource(R.drawable.ic_thumb_down_selected_24dp)
                     item.count_not_approve.inc()
                     adapter.notifyItemChanged(adapterPosition, Payload.APPROVE_CHANGE)
-                    adapter.setBadge(
-                        item.ownerId, false,
-                        false, false
-                    )
+
                 }
             }
 

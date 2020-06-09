@@ -9,4 +9,6 @@
     <color name="colorBackgroundForRepost">#B775C8</color>
     <color name="colorErrorNoNetwork">#DF5371</color>
     <color name="colorAppName">#E4D55C</color>
+    <color name="colorToolbar">#4FCDCD</color>
+
 </resources>
