@@ -1,14 +1,13 @@
 package com.tribune.feature.ui.adapters.holders
 
 import android.view.View
-import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.tribune.R
 import com.tribune.component.formatter.DateFormatter
-import com.tribune.feature.ui.adapters.PostRecyclerAdapter
 import com.tribune.feature.data.model.PostModel
 import com.tribune.feature.data.model.UserBadge
 import com.tribune.feature.ui.adapters.Payload
+import com.tribune.feature.ui.adapters.PostRecyclerAdapter
 import kotlinx.android.synthetic.main.tribune_list_repost_item.view.*
 
 class RepostViewHolder(adapter: PostRecyclerAdapter, view: View) : BaseViewHolder(adapter, view) {
@@ -29,8 +28,10 @@ class RepostViewHolder(adapter: PostRecyclerAdapter, view: View) : BaseViewHolde
                 } else {
                     adapter.onApproveClicked(adapter.list[adapterPosition])
                     item.isNotApprove = false
+                    item.isApprove = true
                     item.count_not_approve.dec()
                     item.count_approve.inc()
+
                     adapter.notifyItemChanged(adapterPosition, Payload.APPROVE_CHANGE)
 
                 }
@@ -48,9 +49,10 @@ class RepostViewHolder(adapter: PostRecyclerAdapter, view: View) : BaseViewHolde
                 } else {
                     adapter.onApproveClicked(adapter.list[adapterPosition])
                     item.isApprove = false
-                    approveImgBtn.setImageResource(R.drawable.ic_thumb_up_defualt_24dp)
+                    item.isNotApprove = true
+                    //  approveImgBtn.setImageResource(R.drawable.ic_thumb_up_defualt_24dp)
                     item.count_approve.dec()
-                    notApproveImgBtn.setImageResource(R.drawable.ic_thumb_down_selected_24dp)
+                    //    notApproveImgBtn.setImageResource(R.drawable.ic_thumb_down_selected_24dp)
                     item.count_not_approve.inc()
                     adapter.notifyItemChanged(adapterPosition, Payload.APPROVE_CHANGE)
 

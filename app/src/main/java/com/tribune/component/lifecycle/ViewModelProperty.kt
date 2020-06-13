@@ -16,9 +16,10 @@ class ViewModelProperty<VM : ViewModel>(
     override val value: VM
         get() {
             return cached
-                ?: ViewModelProvider(ownerProducer(), factoryProducer()).get(viewModelClass.java).also {
-                    cached = it
-                }
+                ?: ViewModelProvider(ownerProducer(), factoryProducer()).get(viewModelClass.java)
+                    .also {
+                        cached = it
+                    }
         }
 
     override fun isInitialized() = cached != null

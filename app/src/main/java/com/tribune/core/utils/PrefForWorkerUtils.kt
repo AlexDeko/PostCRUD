@@ -18,4 +18,5 @@ fun setLastVisitTimeWork(context: Context, currentTimeMillis: Long) =
 
 fun isShowNotifyWork(context: Context) =
     context.getSharedPreferences(API_SHARED_FILE, Context.MODE_PRIVATE).getLong(
-        LAST_TIME_VISIT_SHARED_KEY, 0) < SHOW_NOTIFICATION_AFTER_UNVISITED_MS
+        LAST_TIME_VISIT_SHARED_KEY, 0
+    ) < SHOW_NOTIFICATION_AFTER_UNVISITED_MS

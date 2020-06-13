@@ -4,11 +4,11 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.tribune.R
-import com.tribune.feature.data.dto.user.UserResponseDto
 import com.tribune.feature.data.model.PostModel
-
-import com.tribune.feature.ui.adapters.holders.*
 import com.tribune.feature.data.model.PostType
+import com.tribune.feature.ui.adapters.holders.BaseViewHolder
+import com.tribune.feature.ui.adapters.holders.PostViewHolder
+import com.tribune.feature.ui.adapters.holders.RepostViewHolder
 
 private const val VIEW_TYPE_POST = 1
 private const val VIEW_TYPE_REPOST = 2

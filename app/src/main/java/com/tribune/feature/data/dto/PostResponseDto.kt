@@ -1,6 +1,5 @@
 package com.tribune.feature.data.dto
 
-import android.graphics.Bitmap
 import com.tribune.feature.data.model.PostModel
 import com.tribune.feature.data.model.PostType
 
@@ -19,9 +18,8 @@ data class PostResponseDto(
     val urlLink: String? = null,
     val countViews: Long = 0,
     val parentId: Long? = null,
-    val imageId: String?= null
+    val imageId: String? = null
 ) {
-
 
 
     companion object {

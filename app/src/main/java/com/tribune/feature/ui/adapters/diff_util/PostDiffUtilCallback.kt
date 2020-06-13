@@ -34,6 +34,6 @@ class PostDiffUtilCallback(
         return (oldPost.type == newPost.type
                 && oldPost.content == newPost.content
                 && oldPost.author == newPost.author
-                && oldPost.repost == newPost.repost )
+                && oldPost.repost == newPost.repost)
     }
 }

@@ -1,6 +1,5 @@
 package com.tribune.feature.data.model
 
-import android.graphics.Bitmap
 import com.google.gson.annotations.SerializedName
 import com.tribune.feature.data.dto.PostResponseDto
 
@@ -19,13 +18,14 @@ data class PostModel(
     val urlLink: String? = null,
     var countViews: Long = 0,
     val parentId: Long? = null,
-    val imageId: String?= null,
+    val imageId: String? = null,
     var repost: PostResponseDto? = null
 )
 
 enum class PostType {
     @SerializedName("POST")
     POST,
+
     @SerializedName("REPOST")
     REPOST
 }

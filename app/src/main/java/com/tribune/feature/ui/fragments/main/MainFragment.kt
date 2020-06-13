@@ -1,10 +1,12 @@
 package com.tribune.feature.ui.fragments.main
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.observe
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.work.ExistingPeriodicWorkPolicy
@@ -14,23 +16,27 @@ import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import com.google.firebase.iid.FirebaseInstanceId
 import com.tribune.*
-
 import com.tribune.component.network.isNetworkConnect
-import com.tribune.core.api.PostsApi
-import com.tribune.core.api.ProfileApi
-import com.tribune.feature.ui.adapters.PostRecyclerAdapter
 import com.tribune.component.notification.NotificationHelper
 import com.tribune.component.notification.UserNotHereWorker
+import com.tribune.core.api.FirebaseApi
+import com.tribune.core.api.PostsApi
+import com.tribune.core.api.ProfileApi
 import com.tribune.core.state.UiState
-import com.tribune.core.utils.*
+import com.tribune.core.utils.isFirstTimeWork
+import com.tribune.core.utils.setLastVisitTimeWork
+import com.tribune.core.utils.snack
+import com.tribune.core.utils.toast
 import com.tribune.feature.data.dto.PostResponseDto.Companion.toModel
+import com.tribune.feature.data.dto.firebase.TokenFirebaseResponse
 import com.tribune.feature.data.model.PostModel
 import com.tribune.feature.data.model.PostType
+import com.tribune.feature.ui.adapters.PostRecyclerAdapter
 import com.tribune.feature.ui.adapters.diff_util.PostDiffUtilResult
 import com.tribune.feature.ui.fragments.dialog.DialogCreatePostFragments
 import io.ktor.util.KtorExperimentalAPI
 import kotlinx.android.synthetic.main.fragment_main.*
-import kotlinx.coroutines.*
+import kotlinx.coroutines.launch
 import org.koin.android.ext.android.get
 import java.util.concurrent.TimeUnit
 
@@ -40,6 +46,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     private val viewModel: MainViewModel = MainViewModel()
     private val posts: PostsApi = get()
     private val users: ProfileApi = get()
+    private val firebase: FirebaseApi = get()
     private val postsList: MutableList<PostModel> =
         emptyArray<PostModel>().toMutableList()
     private var pageId: Long = 0
@@ -48,7 +55,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         requestToken()
         scheduleJob()
-        loadLastPage()
+        fetchData()
         setList()
         setFloatActionButton()
         setSwipeRefresh()
@@ -104,6 +111,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                     tokenFirebase = it.token
                     arguments?.putString(ARG_TOKEN_FIREBASE, tokenFirebase)
                     pushTokenFCMForUser()
+                    saveTokenFCM(tokenFirebase)
 
                 }
                 return@with
@@ -116,6 +124,15 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
             snack(getString(R.string.google_play_unavailable))
             return
+        }
+    }
+
+    private fun saveTokenFCM(token: String) = viewLifecycleOwner.lifecycleScope.launch {
+        try {
+            val user = users.getProfile()
+            firebase.saveToken(TokenFirebaseResponse(userId = user.id, token = token))
+        } catch (e: Exception) {
+            networkError(e)
         }
     }
 
@@ -132,7 +149,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     private fun setSwipeRefresh() {
         swipeRefresh.setOnRefreshListener {
             postsList.clear()
-            loadLastPage()
+            fetchData()
             notifyDataChangeAdapter()
             swipeRefresh.isRefreshing = false
         }
@@ -188,12 +205,6 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         }
     }
 
-    private fun pushUserUpdateCountApproveInc() = viewLifecycleOwner.lifecycleScope.launch {
-        val me = users.getProfile()
-        users.updateUser(me.copy(approve = me.approve.inc() ))
-    }
-
-
     private fun pushNotApprove(id: Long) = viewLifecycleOwner.lifecycleScope.launch {
         try {
             posts.setNotApprovePost(id)
@@ -221,28 +232,6 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         }
     }
 
-    private fun loadLastPage() {
-        changeProgressState(true)
-        viewLifecycleOwner.lifecycleScope.launch {
-            try {
-                val pageList = posts.getLastPage(PAGE_SIZE).map { it.toModel() }
-                if (pageList.isNotEmpty()) {
-                    for (i in pageList.indices) {
-                        if (pageList[i].type == PostType.REPOST)
-                            pageList[i].repost = posts.getPostsById(pageList[i].parentId!!)
-                    }
-                }
-
-                addPostsInList(pageList)
-
-            } catch (e: Exception) {
-                networkError(e)
-            }
-        }
-        changeProgressState(false)
-    }
-
-
     @KtorExperimentalAPI
     private fun fetchData() {
         changeProgressState(true)
@@ -250,6 +239,12 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
             try {
                 val pageList = posts.getPage(pageId, PAGE_SIZE).map { it.toModel() }
+                if (pageList.isNotEmpty()) {
+                    for (i in pageList.indices) {
+                        if (pageList[i].type == PostType.REPOST)
+                            pageList[i].repost = posts.getPostsById(pageList[i].parentId!!)
+                    }
+                }
                 addPostsInList(pageList)
 
             } catch (e: Exception) {
@@ -305,7 +300,11 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
     private fun networkError(e: Exception) {
         if (!isNetworkConnect(requireContext())) errorNoNetwork.visibility = View.VISIBLE
-        else toast(e.localizedMessage!!)
+        if (e.localizedMessage == UNAUTHORIZED_HTTP_STATUS_CODE) {
+            val prefs: SharedPreferences = get()
+            prefs.edit().remove(PREFS_TOKEN).apply()
+            findNavController().navigate(R.id.action_mainFragment_to_authFragment)
+        } else toast(e.localizedMessage!!)
     }
 
     private fun scheduleJob() {

@@ -9,23 +9,23 @@ import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.navigation.NavDeepLinkBuilder
-import androidx.navigation.Navigation
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
-import com.tribune.feature.ui.MainActivity
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.MainScope
 
-class MessagingService : FirebaseMessagingService() {
+class MessagingService : FirebaseMessagingService(), CoroutineScope by MainScope() {
 
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         val map = remoteMessage.data
         val builder: NotificationCompat.Builder
 
-        builder = if (map["title"] == "NewPost") {
+        builder = if (map["title"] == NEW_POST_FCM_ID) {
 
-            NotificationCompat.Builder(this, "Post")
+            NotificationCompat.Builder(this, NEW_POST_FCM_ID)
                 .setSmallIcon(R.drawable.ic_question_answer_blue_24dp)
-                .setContentTitle("Новый пост!")
+                .setContentTitle(getString(R.string.message_title_new_post))
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
 
         } else {
@@ -34,7 +34,7 @@ class MessagingService : FirebaseMessagingService() {
 
             val deeplink = NavDeepLinkBuilder(this)
                 .setGraph(R.navigation.navigation_global)
-                .setDestination(R.id.action_mainFragment_to_postFragment)
+                .setDestination(R.id.postFragment)
                 .setArguments(args)
                 .createPendingIntent()
 
@@ -43,12 +43,12 @@ class MessagingService : FirebaseMessagingService() {
             val notificationLayoutExpanded =
                 RemoteViews(packageName, R.layout.item_notification)
 
-            NotificationCompat.Builder(this, "NewLike")
+            NotificationCompat.Builder(this, NEW_LIKE_FCM_ID)
                 .setSmallIcon(R.drawable.ic_question_answer_blue_24dp)
                 .setStyle(NotificationCompat.DecoratedCustomViewStyle())
                 .setCustomContentView(notificationLayout)
                 .setCustomBigContentView(notificationLayoutExpanded)
-                .setContentTitle("Ваш пост лайкнули")
+                .setContentTitle(getString(R.string.message_title_new_approve))
                 .setAutoCancel(true)
                 .setContentIntent(deeplink)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
@@ -65,8 +65,8 @@ class MessagingService : FirebaseMessagingService() {
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
         val importance = NotificationManager.IMPORTANCE_DEFAULT
-        val channel = NotificationChannel("New Like", "New Like", importance)
-        channel.description = "New Like"
+        val channel = NotificationChannel(NEW_LIKE_FCM_ID, NEW_LIKE_FCM_ID, importance)
+        channel.description = NEW_LIKE_FCM_ID
         // Register the channel with the system; you can't change the importance
         // or other notification behaviors after this
         val notificationManager = getSystemService(

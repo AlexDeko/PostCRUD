@@ -1,14 +1,13 @@
 package com.tribune.feature.ui.fragments.regist
 
+
 import android.content.SharedPreferences
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.View
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.tribune.PREFS_TOKEN
-
-
 import com.tribune.R
 import com.tribune.core.api.AuthApi
 import com.tribune.core.utils.isValidPassword
@@ -19,7 +18,6 @@ import com.tribune.feature.data.dto.AuthenticationResponseDto
 import kotlinx.android.synthetic.main.fragment_regist.*
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.get
-import java.lang.Exception
 
 class RegistFragment : Fragment(R.layout.fragment_regist) {
 

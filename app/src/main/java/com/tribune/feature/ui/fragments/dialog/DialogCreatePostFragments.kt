@@ -3,6 +3,7 @@ package com.tribune.feature.ui.fragments.dialog
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.provider.MediaStore
@@ -11,10 +12,8 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.lifecycleScope
-import com.tribune.ARG_IMAGE_ID
-import com.tribune.ARG_POST_ID
-import com.tribune.R
-import com.tribune.ARG_TOKEN_FIREBASE
+import androidx.navigation.fragment.findNavController
+import com.tribune.*
 import com.tribune.component.creator.creteNewPost
 import com.tribune.component.network.isNetworkConnect
 import com.tribune.component.notification.NotificationHelper
@@ -42,7 +41,6 @@ class DialogCreatePostFragments : DialogFragment() {
     private val token = arguments?.getString(ARG_TOKEN_FIREBASE) ?: ""
 
 
-
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 
         return AlertDialog.Builder(requireContext())
@@ -51,18 +49,25 @@ class DialogCreatePostFragments : DialogFragment() {
             .show().apply {
                 createPostButton.setOnClickListener {
 
-                    activity?.lifecycleScope?.launch {
-                        val user = users.getProfile()
-                        val createPost: PostResponseDto = creteNewPost(
-                            contentText = textPostInput.text.toString(), author = user.username,
-                            ownerId = user.id, imageId = imageId
-                        )
 
-                        val post = posts.createPost(createPost)
+                    lifecycleScope.launch {
+                        try {
+                            val user = users.getProfile()
+                            val createPost: PostResponseDto = creteNewPost(
+                                contentText = textPostInput.text.toString(), author = user.username,
+                                ownerId = user.id, imageId = imageId
+                            )
 
-                        arguments = Bundle().apply {
-                            putString(ARG_IMAGE_ID, imageId)
-                            putLong(ARG_POST_ID, post.id) }
+                            val post = posts.createPost(createPost)
+
+                            arguments = Bundle().apply {
+                                putString(ARG_IMAGE_ID, imageId)
+                                putLong(ARG_POST_ID, post.id)
+                            }
+                        } catch (e: Exception) {
+                            networkError(e)
+                        }
+
                     }
                     hide()
                 }
@@ -91,7 +96,7 @@ class DialogCreatePostFragments : DialogFragment() {
         }
     }
 
-    private fun pushMediaImage(bitmap: Bitmap) = activity?.lifecycleScope?.launch {
+    private fun pushMediaImage(bitmap: Bitmap) = lifecycleScope.launch {
         val bos = ByteArrayOutputStream()
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos)
         val reqFIle = RequestBody.create("image/jpeg".toMediaTypeOrNull(), bos.toByteArray())
@@ -109,6 +114,10 @@ class DialogCreatePostFragments : DialogFragment() {
 
     private fun networkError(e: Exception) {
         if (!isNetworkConnect(requireContext())) errorNoNetwork.visibility = View.VISIBLE
-        else toast(e.localizedMessage!!)
+        if (e.localizedMessage == UNAUTHORIZED_HTTP_STATUS_CODE) {
+            val prefs: SharedPreferences = get()
+            prefs.edit().remove(PREFS_TOKEN).apply()
+            findNavController().navigate(R.id.authFragment)
+        } else toast(e.localizedMessage!!)
     }
 }
